@@ -1,0 +1,527 @@
+[
+  {
+    "id": 1,
+    "name": "Barbell Bench Press",
+    "category": "Chest",
+    "equipment": "Barbell",
+    "type": "strength"
+  },
+  {
+    "id": 2,
+    "name": "Dumbbell Bench Press",
+    "category": "Chest",
+    "equipment": "Dumbbell",
+    "type": "strength"
+  },
+  {
+    "id": 3,
+    "name": "Incline Barbell Bench Press",
+    "category": "Chest",
+    "equipment": "Barbell",
+    "type": "strength"
+  },
+  {
+    "id": 4,
+    "name": "Incline Dumbbell Press",
+    "category": "Chest",
+    "equipment": "Dumbbell",
+    "type": "strength"
+  },
+  {
+    "id": 5,
+    "name": "Decline Bench Press",
+    "category": "Chest",
+    "equipment": "Barbell",
+    "type": "strength"
+  },
+  {
+    "id": 6,
+    "name": "Chest Fly (Dumbbell)",
+    "category": "Chest",
+    "equipment": "Dumbbell",
+    "type": "strength"
+  },
+  {
+    "id": 7,
+    "name": "Cable Chest Fly",
+    "category": "Chest",
+    "equipment": "Cable",
+    "type": "strength"
+  },
+  {
+    "id": 8,
+    "name": "Push-ups",
+    "category": "Chest",
+    "equipment": "Bodyweight",
+    "type": "strength"
+  },
+  {
+    "id": 9,
+    "name": "Chest Dips",
+    "category": "Chest",
+    "equipment": "Bodyweight",
+    "type": "strength"
+  },
+  {
+    "id": 10,
+    "name": "Pec Deck Machine",
+    "category": "Chest",
+    "equipment": "Machine",
+    "type": "strength"
+  },
+  {
+    "id": 11,
+    "name": "Deadlift",
+    "category": "Back",
+    "equipment": "Barbell",
+    "type": "strength"
+  },
+  {
+    "id": 12,
+    "name": "Barbell Row",
+    "category": "Back",
+    "equipment": "Barbell",
+    "type": "strength"
+  },
+  {
+    "id": 13,
+    "name": "Dumbbell Row",
+    "category": "Back",
+    "equipment": "Dumbbell",
+    "type": "strength"
+  },
+  {
+    "id": 14,
+    "name": "Pull-ups",
+    "category": "Back",
+    "equipment": "Bodyweight",
+    "type": "strength"
+  },
+  {
+    "id": 15,
+    "name": "Chin-ups",
+    "category": "Back",
+    "equipment": "Bodyweight",
+    "type": "strength"
+  },
+  {
+    "id": 16,
+    "name": "Lat Pulldown",
+    "category": "Back",
+    "equipment": "Cable",
+    "type": "strength"
+  },
+  {
+    "id": 17,
+    "name": "Seated Cable Row",
+    "category": "Back",
+    "equipment": "Cable",
+    "type": "strength"
+  },
+  {
+    "id": 18,
+    "name": "T-Bar Row",
+    "category": "Back",
+    "equipment": "Machine",
+    "type": "strength"
+  },
+  {
+    "id": 19,
+    "name": "Face Pulls",
+    "category": "Back",
+    "equipment": "Cable",
+    "type": "strength"
+  },
+  {
+    "id": 20,
+    "name": "Hyperextensions",
+    "category": "Back",
+    "equipment": "Machine",
+    "type": "strength"
+  },
+  {
+    "id": 21,
+    "name": "Overhead Press (Barbell)",
+    "category": "Shoulders",
+    "equipment": "Barbell",
+    "type": "strength"
+  },
+  {
+    "id": 22,
+    "name": "Dumbbell Shoulder Press",
+    "category": "Shoulders",
+    "equipment": "Dumbbell",
+    "type": "strength"
+  },
+  {
+    "id": 23,
+    "name": "Arnold Press",
+    "category": "Shoulders",
+    "equipment": "Dumbbell",
+    "type": "strength"
+  },
+  {
+    "id": 24,
+    "name": "Lateral Raise",
+    "category": "Shoulders",
+    "equipment": "Dumbbell",
+    "type": "strength"
+  },
+  {
+    "id": 25,
+    "name": "Front Raise",
+    "category": "Shoulders",
+    "equipment": "Dumbbell",
+    "type": "strength"
+  },
+  {
+    "id": 26,
+    "name": "Rear Delt Fly",
+    "category": "Shoulders",
+    "equipment": "Dumbbell",
+    "type": "strength"
+  },
+  {
+    "id": 27,
+    "name": "Cable Lateral Raise",
+    "category": "Shoulders",
+    "equipment": "Cable",
+    "type": "strength"
+  },
+  {
+    "id": 28,
+    "name": "Machine Shoulder Press",
+    "category": "Shoulders",
+    "equipment": "Machine",
+    "type": "strength"
+  },
+  {
+    "id": 29,
+    "name": "Upright Row",
+    "category": "Shoulders",
+    "equipment": "Barbell",
+    "type": "strength"
+  },
+  {
+    "id": 30,
+    "name": "Shrugs",
+    "category": "Shoulders",
+    "equipment": "Dumbbell",
+    "type": "strength"
+  },
+  {
+    "id": 31,
+    "name": "Barbell Squat",
+    "category": "Legs",
+    "equipment": "Barbell",
+    "type": "strength"
+  },
+  {
+    "id": 32,
+    "name": "Front Squat",
+    "category": "Legs",
+    "equipment": "Barbell",
+    "type": "strength"
+  },
+  {
+    "id": 33,
+    "name": "Leg Press",
+    "category": "Legs",
+    "equipment": "Machine",
+    "type": "strength"
+  },
+  {
+    "id": 34,
+    "name": "Romanian Deadlift",
+    "category": "Legs",
+    "equipment": "Barbell",
+    "type": "strength"
+  },
+  {
+    "id": 35,
+    "name": "Leg Extension",
+    "category": "Legs",
+    "equipment": "Machine",
+    "type": "strength"
+  },
+  {
+    "id": 36,
+    "name": "Leg Curl",
+    "category": "Legs",
+    "equipment": "Machine",
+    "type": "strength"
+  },
+  {
+    "id": 37,
+    "name": "Lunges",
+    "category": "Legs",
+    "equipment": "Dumbbell",
+    "type": "strength"
+  },
+  {
+    "id": 38,
+    "name": "Bulgarian Split Squat",
+    "category": "Legs",
+    "equipment": "Dumbbell",
+    "type": "strength"
+  },
+  {
+    "id": 39,
+    "name": "Calf Raise (Standing)",
+    "category": "Legs",
+    "equipment": "Machine",
+    "type": "strength"
+  },
+  {
+    "id": 40,
+    "name": "Calf Raise (Seated)",
+    "category": "Legs",
+    "equipment": "Machine",
+    "type": "strength"
+  },
+  {
+    "id": 41,
+    "name": "Hack Squat",
+    "category": "Legs",
+    "equipment": "Machine",
+    "type": "strength"
+  },
+  {
+    "id": 42,
+    "name": "Goblet Squat",
+    "category": "Legs",
+    "equipment": "Dumbbell",
+    "type": "strength"
+  },
+  {
+    "id": 43,
+    "name": "Barbell Curl",
+    "category": "Biceps",
+    "equipment": "Barbell",
+    "type": "strength"
+  },
+  {
+    "id": 44,
+    "name": "Dumbbell Curl",
+    "category": "Biceps",
+    "equipment": "Dumbbell",
+    "type": "strength"
+  },
+  {
+    "id": 45,
+    "name": "Hammer Curl",
+    "category": "Biceps",
+    "equipment": "Dumbbell",
+    "type": "strength"
+  },
+  {
+    "id": 46,
+    "name": "Cable Curl",
+    "category": "Biceps",
+    "equipment": "Cable",
+    "type": "strength"
+  },
+  {
+    "id": 47,
+    "name": "Preacher Curl",
+    "category": "Biceps",
+    "equipment": "Barbell",
+    "type": "strength"
+  },
+  {
+    "id": 48,
+    "name": "Concentration Curl",
+    "category": "Biceps",
+    "equipment": "Dumbbell",
+    "type": "strength"
+  },
+  {
+    "id": 49,
+    "name": "EZ Bar Curl",
+    "category": "Biceps",
+    "equipment": "Barbell",
+    "type": "strength"
+  },
+  {
+    "id": 50,
+    "name": "Tricep Dips",
+    "category": "Triceps",
+    "equipment": "Bodyweight",
+    "type": "strength"
+  },
+  {
+    "id": 51,
+    "name": "Close-Grip Bench Press",
+    "category": "Triceps",
+    "equipment": "Barbell",
+    "type": "strength"
+  },
+  {
+    "id": 52,
+    "name": "Tricep Pushdown",
+    "category": "Triceps",
+    "equipment": "Cable",
+    "type": "strength"
+  },
+  {
+    "id": 53,
+    "name": "Overhead Tricep Extension",
+    "category": "Triceps",
+    "equipment": "Dumbbell",
+    "type": "strength"
+  },
+  {
+    "id": 54,
+    "name": "Skull Crushers",
+    "category": "Triceps",
+    "equipment": "Barbell",
+    "type": "strength"
+  },
+  {
+    "id": 55,
+    "name": "Tricep Kickback",
+    "category": "Triceps",
+    "equipment": "Dumbbell",
+    "type": "strength"
+  },
+  {
+    "id": 56,
+    "name": "Crunches",
+    "category": "Abs",
+    "equipment": "Bodyweight",
+    "type": "strength"
+  },
+  {
+    "id": 57,
+    "name": "Plank",
+    "category": "Abs",
+    "equipment": "Bodyweight",
+    "type": "strength"
+  },
+  {
+    "id": 58,
+    "name": "Russian Twists",
+    "category": "Abs",
+    "equipment": "Bodyweight",
+    "type": "strength"
+  },
+  {
+    "id": 59,
+    "name": "Leg Raises",
+    "category": "Abs",
+    "equipment": "Bodyweight",
+    "type": "strength"
+  },
+  {
+    "id": 60,
+    "name": "Cable Crunches",
+    "category": "Abs",
+    "equipment": "Cable",
+    "type": "strength"
+  },
+  {
+    "id": 61,
+    "name": "Ab Wheel Rollout",
+    "category": "Abs",
+    "equipment": "Equipment",
+    "type": "strength"
+  },
+  {
+    "id": 62,
+    "name": "Mountain Climbers",
+    "category": "Abs",
+    "equipment": "Bodyweight",
+    "type": "strength"
+  },
+  {
+    "id": 63,
+    "name": "Bicycle Crunches",
+    "category": "Abs",
+    "equipment": "Bodyweight",
+    "type": "strength"
+  },
+  {
+    "id": 64,
+    "name": "Treadmill Running",
+    "category": "Cardio",
+    "equipment": "Machine",
+    "type": "cardio"
+  },
+  {
+    "id": 65,
+    "name": "Treadmill Walking",
+    "category": "Cardio",
+    "equipment": "Machine",
+    "type": "cardio"
+  },
+  {
+    "id": 66,
+    "name": "Elliptical",
+    "category": "Cardio",
+    "equipment": "Machine",
+    "type": "cardio"
+  },
+  {
+    "id": 67,
+    "name": "Stationary Bike",
+    "category": "Cardio",
+    "equipment": "Machine",
+    "type": "cardio"
+  },
+  {
+    "id": 68,
+    "name": "Rowing Machine",
+    "category": "Cardio",
+    "equipment": "Machine",
+    "type": "cardio"
+  },
+  {
+    "id": 69,
+    "name": "Stair Climber",
+    "category": "Cardio",
+    "equipment": "Machine",
+    "type": "cardio"
+  },
+  {
+    "id": 70,
+    "name": "Jump Rope",
+    "category": "Cardio",
+    "equipment": "Equipment",
+    "type": "cardio"
+  },
+  {
+    "id": 71,
+    "name": "Swimming",
+    "category": "Cardio",
+    "equipment": "None",
+    "type": "cardio"
+  },
+  {
+    "id": 72,
+    "name": "Cycling (Outdoor)",
+    "category": "Cardio",
+    "equipment": "Equipment",
+    "type": "cardio"
+  },
+  {
+    "id": 73,
+    "name": "Running (Outdoor)",
+    "category": "Cardio",
+    "equipment": "None",
+    "type": "cardio"
+  },
+  {
+    "id": 74,
+    "name": "Burpees",
+    "category": "Cardio",
+    "equipment": "Bodyweight",
+    "type": "cardio"
+  },
+  {
+    "id": 75,
+    "name": "Box Jumps",
+    "category": "Cardio",
+    "equipment": "Equipment",
+    "type": "cardio"
+  }
+]

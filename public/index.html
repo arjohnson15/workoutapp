@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Workout Tracker</title>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .auth-container {
+      max-width: 400px;
+      margin: 100px auto;
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .auth-container h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #333;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: #555;
+      font-weight: 500;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: border-color 0.3s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .btn-secondary {
+      background: #6c757d;
+      margin-top: 10px;
+    }
+
+    .btn-small {
+      width: auto;
+      padding: 8px 16px;
+      font-size: 14px;
+      margin: 5px;
+    }
+
+    .btn-danger {
+      background: #dc3545;
+    }
+
+    .btn-success {
+      background: #28a745;
+    }
+
+    .error {
+      color: #dc3545;
+      font-size: 14px;
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    .success {
+      color: #28a745;
+      font-size: 14px;
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    .app-header {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .app-header h1 {
+      color: #333;
+      font-size: 28px;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .main-content {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 20px;
+    }
+
+    .sidebar {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      height: fit-content;
+    }
+
+    .sidebar h3 {
+      margin-bottom: 15px;
+      color: #333;
+    }
+
+    .category-list {
+      list-style: none;
+    }
+
+    .category-item {
+      padding: 12px;
+      margin-bottom: 8px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .category-item:hover {
+      background: #e9ecef;
+      transform: translateX(5px);
+    }
+
+    .category-item.active {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    .content-area {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .exercise-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    .exercise-card {
+      padding: 15px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+      border: 2px solid transparent;
+    }
+
+    .exercise-card:hover {
+      border-color: #667eea;
+      transform: translateY(-3px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+    }
+
+    .exercise-card.selected {
+      border-color: #667eea;
+      background: #e7e9fc;
+    }
+
+    .exercise-card h4 {
+      color: #333;
+      margin-bottom: 8px;
+    }
+
+    .exercise-card p {
+      color: #666;
+      font-size: 13px;
+    }
+
+    .workout-form {
+      background: #f8f9fa;
+      padding: 25px;
+      border-radius: 8px;
+      margin-top: 20px;
+    }
+
+    .workout-form h3 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .sets-container {
+      margin-top: 20px;
+    }
+
+    .set-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr auto;
+      gap: 15px;
+      margin-bottom: 15px;
+      align-items: end;
+    }
+
+    .workout-history {
+      margin-top: 30px;
+    }
+
+    .workout-history h3 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .workout-item {
+      background: #f8f9fa;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      border-left: 4px solid #667eea;
+    }
+
+    .workout-item h4 {
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .workout-item .date {
+      color: #666;
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+
+    .workout-item .sets {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .set-badge {
+      background: white;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      color: #333;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #e0e0e0;
+    }
+
+    .tab {
+      padding: 12px 24px;
+      background: none;
+      border: none;
+      border-bottom: 3px solid transparent;
+      cursor: pointer;
+      font-size: 16px;
+      color: #666;
+      transition: all 0.3s;
+    }
+
+    .tab.active {
+      color: #667eea;
+      border-bottom-color: #667eea;
+    }
+
+    .tab:hover {
+      color: #667eea;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: #666;
+    }
+
+    .empty-state h3 {
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    @media (max-width: 768px) {
+      .main-content {
+        grid-template-columns: 1fr;
+      }
+
+      .exercise-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .app-header {
+        flex-direction: column;
+        gap: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    const API_URL = 'http://localhost:3001/api';
+
+    function App() {
+      const [token, setToken] = useState(localStorage.getItem('token'));
+      const [username, setUsername] = useState(localStorage.getItem('username'));
+      const [currentView, setCurrentView] = useState('log'); // 'log' or 'history'
+
+      const handleLogin = (token, username) => {
+        localStorage.setItem('token', token);
+        localStorage.setItem('username', username);
+        setToken(token);
+        setUsername(username);
+      };
+
+      const handleLogout = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('username');
+        setToken(null);
+        setUsername(null);
+      };
+
+      if (!token) {
+        return <AuthScreen onLogin={handleLogin} />;
+      }
+
+      return (
+        <div className="container">
+          <div className="app-header">
+            <h1>💪 Workout Tracker</h1>
+            <div className="user-info">
+              <span>Welcome, <strong>{username}</strong></span>
+              <button className="btn-small btn-secondary" onClick={handleLogout}>
+                Logout
+              </button>
+            </div>
+          </div>
+
+          <div className="tabs">
+            <button 
+              className={`tab ${currentView === 'log' ? 'active' : ''}`}
+              onClick={() => setCurrentView('log')}
+            >
+              Log Workout
+            </button>
+            <button 
+              className={`tab ${currentView === 'history' ? 'active' : ''}`}
+              onClick={() => setCurrentView('history')}
+            >
+              Workout History
+            </button>
+          </div>
+
+          {currentView === 'log' ? (
+            <WorkoutLogger token={token} />
+          ) : (
+            <WorkoutHistory token={token} />
+          )}
+        </div>
+      );
+    }
+
+    function AuthScreen({ onLogin }) {
+      const [isLogin, setIsLogin] = useState(true);
+      const [username, setUsername] = useState('');
+      const [password, setPassword] = useState('');
+      const [error, setError] = useState('');
+      const [success, setSuccess] = useState('');
+
+      const handleSubmit = async (e) => {
+        e.preventDefault();
+        setError('');
+        setSuccess('');
+
+        const endpoint = isLogin ? '/login' : '/register';
+
+        try {
+          const response = await fetch(API_URL + endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+          });
+
+          const data = await response.json();
+
+          if (!response.ok) {
+            throw new Error(data.error);
+          }
+
+          if (isLogin) {
+            onLogin(data.token, data.username);
+          } else {
+            setSuccess('Account created! Please log in.');
+            setIsLogin(true);
+            setPassword('');
+          }
+        } catch (err) {
+          setError(err.message);
+        }
+      };
+
+      return (
+        <div className="auth-container">
+          <h2>{isLogin ? 'Login' : 'Create Account'}</h2>
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label>Username</label>
+              <input
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label>Password</label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                minLength="6"
+              />
+            </div>
+            <button type="submit">
+              {isLogin ? 'Login' : 'Create Account'}
+            </button>
+          </form>
+          <button 
+            className="btn-secondary"
+            onClick={() => {
+              setIsLogin(!isLogin);
+              setError('');
+              setSuccess('');
+            }}
+          >
+            {isLogin ? 'Need an account? Sign up' : 'Have an account? Login'}
+          </button>
+          {error && <div className="error">{error}</div>}
+          {success && <div className="success">{success}</div>}
+        </div>
+      );
+    }
+
+    function WorkoutLogger({ token }) {
+      const [exercises, setExercises] = useState([]);
+      const [categories, setCategories] = useState([]);
+      const [selectedCategory, setSelectedCategory] = useState('');
+      const [selectedExercise, setSelectedExercise] = useState(null);
+      const [sets, setSets] = useState([{ reps: '', weight: '', time: '', distance: '' }]);
+      const [message, setMessage] = useState('');
+
+      useEffect(() => {
+        fetchExercises();
+      }, []);
+
+      const fetchExercises = async () => {
+        try {
+          const response = await fetch(API_URL + '/exercises', {
+            headers: { 'Authorization': `Bearer ${token}` }
+          });
+          const data = await response.json();
+          setExercises(data);
+
+          const uniqueCategories = [...new Set(data.map(e => e.category))];
+          setCategories(uniqueCategories);
+          if (uniqueCategories.length > 0) {
+            setSelectedCategory(uniqueCategories[0]);
+          }
+        } catch (err) {
+          console.error('Error fetching exercises:', err);
+        }
+      };
+
+      const addSet = () => {
+        setSets([...sets, { reps: '', weight: '', time: '', distance: '' }]);
+      };
+
+      const updateSet = (index, field, value) => {
+        const newSets = [...sets];
+        newSets[index][field] = value;
+        setSets(newSets);
+      };
+
+      const removeSet = (index) => {
+        if (sets.length > 1) {
+          const newSets = sets.filter((_, i) => i !== index);
+          setSets(newSets);
+        }
+      };
+
+      const handleLogWorkout = async () => {
+        if (!selectedExercise) {
+          setMessage('Please select an exercise');
+          return;
+        }
+
+        const isCardio = selectedExercise.type === 'cardio';
+        const validSets = sets.filter(set => {
+          if (isCardio) {
+            return set.time || set.distance;
+          } else {
+            return set.reps && set.weight;
+          }
+        });
+
+        if (validSets.length === 0) {
+          setMessage('Please fill in at least one set');
+          return;
+        }
+
+        try {
+          const response = await fetch(API_URL + '/workouts', {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              exerciseId: selectedExercise.id,
+              exerciseName: selectedExercise.name,
+              sets: validSets
+            })
+          });
+
+          if (response.ok) {
+            setMessage('Workout logged successfully! 💪');
+            setSets([{ reps: '', weight: '', time: '', distance: '' }]);
+            setSelectedExercise(null);
+            setTimeout(() => setMessage(''), 3000);
+          }
+        } catch (err) {
+          setMessage('Error logging workout');
+        }
+      };
+
+      const filteredExercises = exercises.filter(e => e.category === selectedCategory);
+      const isCardio = selectedExercise?.type === 'cardio';
+
+      return (
+        <div className="main-content">
+          <div className="sidebar">
+            <h3>Categories</h3>
+            <ul className="category-list">
+              {categories.map(category => (
+                <li
+                  key={category}
+                  className={`category-item ${category === selectedCategory ? 'active' : ''}`}
+                  onClick={() => setSelectedCategory(category)}
+                >
+                  {category}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="content-area">
+            <h2>{selectedCategory} Exercises</h2>
+            <div className="exercise-grid">
+              {filteredExercises.map(exercise => (
+                <div
+                  key={exercise.id}
+                  className={`exercise-card ${selectedExercise?.id === exercise.id ? 'selected' : ''}`}
+                  onClick={() => setSelectedExercise(exercise)}
+                >
+                  <h4>{exercise.name}</h4>
+                  <p>{exercise.equipment}</p>
+                  <p style={{ fontSize: '11px', marginTop: '5px', color: '#999' }}>
+                    {exercise.type === 'cardio' ? '🏃 Cardio' : '💪 Strength'}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            {selectedExercise && (
+              <div className="workout-form">
+                <h3>Log: {selectedExercise.name}</h3>
+                <div className="sets-container">
+                  {sets.map((set, index) => (
+                    <div key={index} className="set-row">
+                      {!isCardio ? (
+                        <>
+                          <div className="form-group">
+                            <label>Reps</label>
+                            <input
+                              type="number"
+                              value={set.reps}
+                              onChange={(e) => updateSet(index, 'reps', e.target.value)}
+                              placeholder="12"
+                            />
+                          </div>
+                          <div className="form-group">
+                            <label>Weight (lbs)</label>
+                            <input
+                              type="number"
+                              value={set.weight}
+                              onChange={(e) => updateSet(index, 'weight', e.target.value)}
+                              placeholder="135"
+                            />
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <div className="form-group">
+                            <label>Time (minutes)</label>
+                            <input
+                              type="number"
+                              value={set.time}
+                              onChange={(e) => updateSet(index, 'time', e.target.value)}
+                              placeholder="30"
+                            />
+                          </div>
+                          <div className="form-group">
+                            <label>Distance (miles)</label>
+                            <input
+                              type="number"
+                              step="0.1"
+                              value={set.distance}
+                              onChange={(e) => updateSet(index, 'distance', e.target.value)}
+                              placeholder="3.5"
+                            />
+                          </div>
+                        </>
+                      )}
+                      <button
+                        type="button"
+                        className="btn-small btn-danger"
+                        onClick={() => removeSet(index)}
+                        disabled={sets.length === 1}
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  ))}
+                </div>
+                <button type="button" className="btn-small btn-secondary" onClick={addSet}>
+                  + Add Set
+                </button>
+                <button 
+                  type="button" 
+                  className="btn-small btn-success"
+                  style={{ marginLeft: '10px' }}
+                  onClick={handleLogWorkout}
+                >
+                  Log Workout
+                </button>
+                {message && <div className={message.includes('success') ? 'success' : 'error'} style={{ marginTop: '15px' }}>
+                  {message}
+                </div>}
+              </div>
+            )}
+          </div>
+        </div>
+      );
+    }
+
+    function WorkoutHistory({ token }) {
+      const [workouts, setWorkouts] = useState([]);
+
+      useEffect(() => {
+        fetchWorkouts();
+      }, []);
+
+      const fetchWorkouts = async () => {
+        try {
+          const response = await fetch(API_URL + '/workouts', {
+            headers: { 'Authorization': `Bearer ${token}` }
+          });
+          const data = await response.json();
+          setWorkouts(data.sort((a, b) => new Date(b.date) - new Date(a.date)));
+        } catch (err) {
+          console.error('Error fetching workouts:', err);
+        }
+      };
+
+      const deleteWorkout = async (id) => {
+        if (!confirm('Delete this workout?')) return;
+
+        try {
+          await fetch(API_URL + `/workouts/${id}`, {
+            method: 'DELETE',
+            headers: { 'Authorization': `Bearer ${token}` }
+          });
+          fetchWorkouts();
+        } catch (err) {
+          console.error('Error deleting workout:', err);
+        }
+      };
+
+      const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+      };
+
+      if (workouts.length === 0) {
+        return (
+          <div className="content-area">
+            <div className="empty-state">
+              <h3>No Workouts Yet</h3>
+              <p>Start logging your workouts to see them here!</p>
+            </div>
+          </div>
+        );
+      }
+
+      return (
+        <div className="content-area">
+          <h2>Your Workout History</h2>
+          <div className="workout-history">
+            {workouts.map(workout => {
+              const isCardio = workout.sets[0]?.time !== undefined || workout.sets[0]?.distance !== undefined;
+              
+              return (
+                <div key={workout.id} className="workout-item">
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
+                    <div>
+                      <h4>{workout.exerciseName}</h4>
+                      <div className="date">{formatDate(workout.date)}</div>
+                    </div>
+                    <button
+                      className="btn-small btn-danger"
+                      onClick={() => deleteWorkout(workout.id)}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                  <div className="sets">
+                    {workout.sets.map((set, index) => (
+                      <div key={index} className="set-badge">
+                        {!isCardio ? (
+                          `Set ${index + 1}: ${set.reps} reps @ ${set.weight} lbs`
+                        ) : (
+                          `${set.time ? `${set.time} min` : ''} ${set.distance ? `${set.distance} mi` : ''}`
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>

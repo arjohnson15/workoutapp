@@ -46,14 +46,16 @@ const initializeDataFiles = () => {
   // Auto-download exercises if file is empty
   const exercises = JSON.parse(fs.readFileSync(EXERCISES_FILE, 'utf8'));
   if (exercises.length === 0) {
-    console.log('📥 Downloading 800+ exercises from free-exercise-db...');
+    console.log('📥 Downloading 800+ exercises from your forked exercise database...');
     downloadExercises();
   }
 };
 
-// Function to download exercises automatically
+// Function to download exercises automatically from the forked repo
 const downloadExercises = () => {
-  const url = 'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/dist/exercises.json';
+  const url = 'https://raw.githubusercontent.com/arjohnson15/exercise-db/main/dist/exercises.json';
+  
+  console.log('📥 Connecting to your forked exercise database...');
   
   https.get(url, (response) => {
     let data = '';
@@ -67,13 +69,30 @@ const downloadExercises = () => {
         const exercises = JSON.parse(data);
         fs.writeFileSync(EXERCISES_FILE, JSON.stringify(exercises, null, 2));
         console.log(`✅ Successfully downloaded ${exercises.length} exercises!`);
+        
+        // Show helpful statistics
+        const categories = [...new Set(exercises.map(e => e.category))].filter(Boolean);
+        const muscles = [...new Set(exercises.flatMap(e => e.primaryMuscles || []))].filter(Boolean);
+        const equipment = [...new Set(exercises.map(e => e.equipment))].filter(Boolean);
+        
+        console.log(`\n📊 Exercise Database Stats:`);
+        console.log(`   ├─ Total Exercises: ${exercises.length}`);
+        console.log(`   ├─ Categories: ${categories.join(', ')}`);
+        console.log(`   ├─ Muscle Groups: ${muscles.length} unique groups`);
+        console.log(`   └─ Equipment Types: ${equipment.length} types`);
+        console.log(`\n✨ Exercise database ready!\n`);
       } catch (error) {
         console.error('❌ Error parsing exercise data:', error.message);
+        console.log('💡 The app will continue with an empty exercise list.');
+        console.log('   You can manually download from:');
+        console.log('   https://raw.githubusercontent.com/arjohnson15/exercise-db/main/dist/exercises.json');
       }
     });
   }).on('error', (error) => {
     console.error('❌ Error downloading exercises:', error.message);
-    console.log('You can manually download from: https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/dist/exercises.json');
+    console.log('💡 Trying to use local backup...');
+    console.log('   If this persists, check your internet connection or manually download from:');
+    console.log('   https://raw.githubusercontent.com/arjohnson15/exercise-db/main/dist/exercises.json');
   });
 };
 
@@ -431,7 +450,7 @@ app.get('/api/workouts/previous/:exerciseId', authenticateToken, (req, res) => {
     const workouts = readWorkouts();
     const userWorkouts = workouts.filter(w => 
       w.userId === req.user.id && 
-      w.exerciseId === parseInt(req.params.exerciseId)
+      (w.exerciseId === req.params.exerciseId || w.exerciseId === parseInt(req.params.exerciseId))
     );
     
     if (userWorkouts.length === 0) {
@@ -558,6 +577,9 @@ app.delete('/api/workouts/:id', authenticateToken, (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-  console.log('To download exercises, run: node download-exercises.js');
+  console.log(`\n🚀 Workout Tracker Server Started!`);
+  console.log(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
+  console.log(`📍 Server running on: http://localhost:${PORT}`);
+  console.log(`🌐 Open in browser: http://localhost:${PORT}`);
+  console.log(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`);
 });

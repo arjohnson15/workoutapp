@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Workout Tracker</title>
+  <title>Workout Tracker Pro</title>
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <style>
     * {
       margin: 0;
@@ -22,7 +23,7 @@
     }
 
     .container {
-      max-width: 1200px;
+      max-width: 1400px;
       margin: 0 auto;
     }
 
@@ -64,7 +65,8 @@
     }
 
     .form-group input:focus,
-    .form-group select:focus {
+    .form-group select:focus,
+    .form-group textarea:focus {
       outline: none;
       border-color: #667eea;
     }
@@ -108,6 +110,10 @@
 
     .btn-success {
       background: #28a745;
+    }
+
+    .btn-info {
+      background: #17a2b8;
     }
 
     .error {
@@ -197,7 +203,7 @@
 
     .exercise-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 15px;
       margin-bottom: 30px;
     }
@@ -209,6 +215,7 @@
       cursor: pointer;
       transition: all 0.3s;
       border: 2px solid transparent;
+      position: relative;
     }
 
     .exercise-card:hover {
@@ -230,6 +237,18 @@
     .exercise-card p {
       color: #666;
       font-size: 13px;
+      margin: 4px 0;
+    }
+
+    .exercise-badge {
+      display: inline-block;
+      padding: 4px 8px;
+      background: #667eea;
+      color: white;
+      border-radius: 4px;
+      font-size: 11px;
+      margin-top: 8px;
+      margin-right: 4px;
     }
 
     .workout-form {
@@ -315,6 +334,7 @@
       font-size: 16px;
       color: #666;
       transition: all 0.3s;
+      width: auto;
     }
 
     .tab.active {
@@ -337,6 +357,182 @@
       color: #333;
     }
 
+    .today-plan {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 30px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+
+    .today-plan h2 {
+      margin-bottom: 10px;
+    }
+
+    .today-plan .day-name {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    .muscle-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .muscle-chip {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+    }
+
+    .settings-grid {
+      display: grid;
+      gap: 20px;
+    }
+
+    .settings-section {
+      background: #f8f9fa;
+      padding: 20px;
+      border-radius: 8px;
+    }
+
+    .settings-section h3 {
+      margin-bottom: 15px;
+      color: #333;
+    }
+
+    .day-selector {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .day-card {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      border: 2px solid #e0e0e0;
+    }
+
+    .day-card h4 {
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .muscle-checkbox {
+      display: flex;
+      align-items: center;
+      margin: 8px 0;
+    }
+
+    .muscle-checkbox input {
+      margin-right: 8px;
+      width: auto;
+    }
+
+    .chart-container {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .chart-container canvas {
+      max-height: 400px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .stat-card {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .stat-card h3 {
+      font-size: 32px;
+      margin-bottom: 5px;
+    }
+
+    .stat-card p {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .exercise-image {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+    .random-exercise-btn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      transition: transform 0.2s;
+      z-index: 1000;
+    }
+
+    .random-exercise-btn:hover {
+      transform: scale(1.1);
+    }
+
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      max-width: 600px;
+      max-height: 80vh;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      width: auto;
+      padding: 8px 12px;
+      background: #dc3545;
+    }
+
     @media (max-width: 768px) {
       .main-content {
         grid-template-columns: 1fr;
@@ -350,6 +546,10 @@
         flex-direction: column;
         gap: 15px;
       }
+
+      .tabs {
+        flex-wrap: wrap;
+      }
     }
   </style>
 </head>
@@ -361,10 +561,11 @@
 
     const API_URL = 'http://localhost:3001/api';
 
+    // Main App Component
     function App() {
       const [token, setToken] = useState(localStorage.getItem('token'));
       const [username, setUsername] = useState(localStorage.getItem('username'));
-      const [currentView, setCurrentView] = useState('log'); // 'log' or 'history'
+      const [currentView, setCurrentView] = useState('home');
 
       const handleLogin = (token, username) => {
         localStorage.setItem('token', token);
@@ -387,7 +588,7 @@
       return (
         <div className="container">
           <div className="app-header">
-            <h1>💪 Workout Tracker</h1>
+            <h1>💪 Workout Tracker Pro</h1>
             <div className="user-info">
               <span>Welcome, <strong>{username}</strong></span>
               <button className="btn-small btn-secondary" onClick={handleLogout}>
@@ -398,28 +599,49 @@
 
           <div className="tabs">
             <button 
+              className={`tab ${currentView === 'home' ? 'active' : ''}`}
+              onClick={() => setCurrentView('home')}
+            >
+              🏠 Home
+            </button>
+            <button 
               className={`tab ${currentView === 'log' ? 'active' : ''}`}
               onClick={() => setCurrentView('log')}
             >
-              Log Workout
+              📝 Log Workout
             </button>
             <button 
               className={`tab ${currentView === 'history' ? 'active' : ''}`}
               onClick={() => setCurrentView('history')}
             >
-              Workout History
+              📜 History
+            </button>
+            <button 
+              className={`tab ${currentView === 'analytics' ? 'active' : ''}`}
+              onClick={() => setCurrentView('analytics')}
+            >
+              📊 Analytics
+            </button>
+            <button 
+              className={`tab ${currentView === 'settings' ? 'active' : ''}`}
+              onClick={() => setCurrentView('settings')}
+            >
+              ⚙️ Settings
             </button>
           </div>
 
-          {currentView === 'log' ? (
-            <WorkoutLogger token={token} />
-          ) : (
-            <WorkoutHistory token={token} />
-          )}
+          {currentView === 'home' && <HomeView token={token} />}
+          {currentView === 'log' && <WorkoutLogger token={token} />}
+          {currentView === 'history' && <WorkoutHistory token={token} />}
+          {currentView === 'analytics' && <AnalyticsView token={token} />}
+          {currentView === 'settings' && <SettingsView token={token} />}
+
+          <RandomExerciseButton token={token} />
         </div>
       );
     }
 
+    // Auth Screen Component
     function AuthScreen({ onLogin }) {
       const [isLogin, setIsLogin] = useState(true);
       const [username, setUsername] = useState('');
@@ -502,12 +724,115 @@
       );
     }
 
+    // Home View Component
+    function HomeView({ token }) {
+      const [todayPlan, setTodayPlan] = useState(null);
+      const [loading, setLoading] = useState(true);
+
+      useEffect(() => {
+        fetchTodayPlan();
+      }, []);
+
+      const fetchTodayPlan = async () => {
+        try {
+          const response = await fetch(API_URL + '/today-plan', {
+            headers: { 'Authorization': `Bearer ${token}` }
+          });
+          const data = await response.json();
+          setTodayPlan(data);
+        } catch (err) {
+          console.error('Error fetching today\'s plan:', err);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      if (loading) {
+        return <div className="content-area">Loading...</div>;
+      }
+
+      const dayNames = {
+        sunday: 'Sunday',
+        monday: 'Monday',
+        tuesday: 'Tuesday',
+        wednesday: 'Wednesday',
+        thursday: 'Thursday',
+        friday: 'Friday',
+        saturday: 'Saturday'
+      };
+
+      return (
+        <div className="content-area">
+          <div className="today-plan">
+            <h2>Today's Workout</h2>
+            <div className="day-name">{dayNames[todayPlan?.day] || 'Today'}</div>
+            {todayPlan?.muscles && todayPlan.muscles.length > 0 ? (
+              <>
+                <p>Focus: {todayPlan.muscles.join(', ')}</p>
+                <div className="muscle-chips">
+                  {todayPlan.muscles.map(muscle => (
+                    <div key={muscle} className="muscle-chip">
+                      {muscle.toUpperCase()}
+                    </div>
+                  ))}
+                </div>
+              </>
+            ) : (
+              <p>Rest Day - No workouts planned. Configure your weekly plan in Settings!</p>
+            )}
+          </div>
+
+          {todayPlan?.exercises && todayPlan.exercises.length > 0 && (
+            <>
+              <h2>Today's Exercises</h2>
+              <div className="exercise-grid">
+                {todayPlan.exercises.map(exercise => (
+                  <ExerciseCard key={exercise.id} exercise={exercise} />
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+      );
+    }
+
+    // Exercise Card Component
+    function ExerciseCard({ exercise, onClick, selected }) {
+      const imageUrl = `https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/${exercise.images?.[0]}`;
+      
+      return (
+        <div 
+          className={`exercise-card ${selected ? 'selected' : ''}`}
+          onClick={onClick}
+        >
+          {exercise.images && exercise.images.length > 0 && (
+            <img 
+              src={imageUrl} 
+              alt={exercise.name} 
+              className="exercise-image"
+              onError={(e) => e.target.style.display = 'none'}
+            />
+          )}
+          <h4>{exercise.name}</h4>
+          <p>Equipment: {exercise.equipment || 'N/A'}</p>
+          <p>Level: {exercise.level || 'N/A'}</p>
+          <div>
+            {exercise.primaryMuscles?.map(muscle => (
+              <span key={muscle} className="exercise-badge">{muscle}</span>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    // Workout Logger Component
     function WorkoutLogger({ token }) {
       const [exercises, setExercises] = useState([]);
-      const [categories, setCategories] = useState([]);
-      const [selectedCategory, setSelectedCategory] = useState('');
+      const [muscles, setMuscles] = useState([]);
+      const [selectedMuscle, setSelectedMuscle] = useState('');
       const [selectedExercise, setSelectedExercise] = useState(null);
-      const [sets, setSets] = useState([{ reps: '', weight: '', time: '', distance: '' }]);
+      const [sets, setSets] = useState([{ reps: '', weight: '' }]);
+      const [notes, setNotes] = useState('');
       const [message, setMessage] = useState('');
 
       useEffect(() => {
@@ -522,10 +847,10 @@
           const data = await response.json();
           setExercises(data);
 
-          const uniqueCategories = [...new Set(data.map(e => e.category))];
-          setCategories(uniqueCategories);
-          if (uniqueCategories.length > 0) {
-            setSelectedCategory(uniqueCategories[0]);
+          const uniqueMuscles = [...new Set(data.flatMap(e => e.primaryMuscles || []))];
+          setMuscles(uniqueMuscles.sort());
+          if (uniqueMuscles.length > 0) {
+            setSelectedMuscle(uniqueMuscles[0]);
           }
         } catch (err) {
           console.error('Error fetching exercises:', err);
@@ -533,7 +858,7 @@
       };
 
       const addSet = () => {
-        setSets([...sets, { reps: '', weight: '', time: '', distance: '' }]);
+        setSets([...sets, { reps: '', weight: '' }]);
       };
 
       const updateSet = (index, field, value) => {
@@ -544,8 +869,7 @@
 
       const removeSet = (index) => {
         if (sets.length > 1) {
-          const newSets = sets.filter((_, i) => i !== index);
-          setSets(newSets);
+          setSets(sets.filter((_, i) => i !== index));
         }
       };
 
@@ -555,14 +879,7 @@
           return;
         }
 
-        const isCardio = selectedExercise.type === 'cardio';
-        const validSets = sets.filter(set => {
-          if (isCardio) {
-            return set.time || set.distance;
-          } else {
-            return set.reps && set.weight;
-          }
-        });
+        const validSets = sets.filter(set => set.reps && set.weight);
 
         if (validSets.length === 0) {
           setMessage('Please fill in at least one set');
@@ -579,13 +896,15 @@
             body: JSON.stringify({
               exerciseId: selectedExercise.id,
               exerciseName: selectedExercise.name,
-              sets: validSets
+              sets: validSets,
+              notes
             })
           });
 
           if (response.ok) {
             setMessage('Workout logged successfully! 💪');
-            setSets([{ reps: '', weight: '', time: '', distance: '' }]);
+            setSets([{ reps: '', weight: '' }]);
+            setNotes('');
             setSelectedExercise(null);
             setTimeout(() => setMessage(''), 3000);
           }
@@ -594,41 +913,37 @@
         }
       };
 
-      const filteredExercises = exercises.filter(e => e.category === selectedCategory);
-      const isCardio = selectedExercise?.type === 'cardio';
+      const filteredExercises = exercises.filter(e => 
+        e.primaryMuscles && e.primaryMuscles.includes(selectedMuscle)
+      );
 
       return (
         <div className="main-content">
           <div className="sidebar">
-            <h3>Categories</h3>
+            <h3>Muscle Groups</h3>
             <ul className="category-list">
-              {categories.map(category => (
+              {muscles.map(muscle => (
                 <li
-                  key={category}
-                  className={`category-item ${category === selectedCategory ? 'active' : ''}`}
-                  onClick={() => setSelectedCategory(category)}
+                  key={muscle}
+                  className={`category-item ${muscle === selectedMuscle ? 'active' : ''}`}
+                  onClick={() => setSelectedMuscle(muscle)}
                 >
-                  {category}
+                  {muscle.charAt(0).toUpperCase() + muscle.slice(1)}
                 </li>
               ))}
             </ul>
           </div>
 
           <div className="content-area">
-            <h2>{selectedCategory} Exercises</h2>
+            <h2>{selectedMuscle ? selectedMuscle.charAt(0).toUpperCase() + selectedMuscle.slice(1) : 'Select Muscle Group'}</h2>
             <div className="exercise-grid">
               {filteredExercises.map(exercise => (
-                <div
+                <ExerciseCard
                   key={exercise.id}
-                  className={`exercise-card ${selectedExercise?.id === exercise.id ? 'selected' : ''}`}
+                  exercise={exercise}
+                  selected={selectedExercise?.id === exercise.id}
                   onClick={() => setSelectedExercise(exercise)}
-                >
-                  <h4>{exercise.name}</h4>
-                  <p>{exercise.equipment}</p>
-                  <p style={{ fontSize: '11px', marginTop: '5px', color: '#999' }}>
-                    {exercise.type === 'cardio' ? '🏃 Cardio' : '💪 Strength'}
-                  </p>
-                </div>
+                />
               ))}
             </div>
 
@@ -638,50 +953,24 @@
                 <div className="sets-container">
                   {sets.map((set, index) => (
                     <div key={index} className="set-row">
-                      {!isCardio ? (
-                        <>
-                          <div className="form-group">
-                            <label>Reps</label>
-                            <input
-                              type="number"
-                              value={set.reps}
-                              onChange={(e) => updateSet(index, 'reps', e.target.value)}
-                              placeholder="12"
-                            />
-                          </div>
-                          <div className="form-group">
-                            <label>Weight (lbs)</label>
-                            <input
-                              type="number"
-                              value={set.weight}
-                              onChange={(e) => updateSet(index, 'weight', e.target.value)}
-                              placeholder="135"
-                            />
-                          </div>
-                        </>
-                      ) : (
-                        <>
-                          <div className="form-group">
-                            <label>Time (minutes)</label>
-                            <input
-                              type="number"
-                              value={set.time}
-                              onChange={(e) => updateSet(index, 'time', e.target.value)}
-                              placeholder="30"
-                            />
-                          </div>
-                          <div className="form-group">
-                            <label>Distance (miles)</label>
-                            <input
-                              type="number"
-                              step="0.1"
-                              value={set.distance}
-                              onChange={(e) => updateSet(index, 'distance', e.target.value)}
-                              placeholder="3.5"
-                            />
-                          </div>
-                        </>
-                      )}
+                      <div className="form-group">
+                        <label>Reps</label>
+                        <input
+                          type="number"
+                          value={set.reps}
+                          onChange={(e) => updateSet(index, 'reps', e.target.value)}
+                          placeholder="12"
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label>Weight (lbs)</label>
+                        <input
+                          type="number"
+                          value={set.weight}
+                          onChange={(e) => updateSet(index, 'weight', e.target.value)}
+                          placeholder="135"
+                        />
+                      </div>
                       <button
                         type="button"
                         className="btn-small btn-danger"
@@ -693,6 +982,17 @@
                     </div>
                   ))}
                 </div>
+                
+                <div className="form-group">
+                  <label>Notes (optional)</label>
+                  <textarea
+                    value={notes}
+                    onChange={(e) => setNotes(e.target.value)}
+                    placeholder="How did this exercise feel?"
+                    rows="3"
+                  />
+                </div>
+
                 <button type="button" className="btn-small btn-secondary" onClick={addSet}>
                   + Add Set
                 </button>
@@ -704,9 +1004,11 @@
                 >
                   Log Workout
                 </button>
-                {message && <div className={message.includes('success') ? 'success' : 'error'} style={{ marginTop: '15px' }}>
-                  {message}
-                </div>}
+                {message && (
+                  <div className={message.includes('success') ? 'success' : 'error'} style={{ marginTop: '15px' }}>
+                    {message}
+                  </div>
+                )}
               </div>
             )}
           </div>
@@ -714,6 +1016,7 @@
       );
     }
 
+    // Workout History Component
     function WorkoutHistory({ token }) {
       const [workouts, setWorkouts] = useState([]);
 
@@ -767,39 +1070,379 @@
         <div className="content-area">
           <h2>Your Workout History</h2>
           <div className="workout-history">
-            {workouts.map(workout => {
-              const isCardio = workout.sets[0]?.time !== undefined || workout.sets[0]?.distance !== undefined;
-              
-              return (
-                <div key={workout.id} className="workout-item">
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
-                    <div>
-                      <h4>{workout.exerciseName}</h4>
-                      <div className="date">{formatDate(workout.date)}</div>
-                    </div>
-                    <button
-                      className="btn-small btn-danger"
-                      onClick={() => deleteWorkout(workout.id)}
-                    >
-                      Delete
-                    </button>
+            {workouts.map(workout => (
+              <div key={workout.id} className="workout-item">
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
+                  <div>
+                    <h4>{workout.exerciseName}</h4>
+                    <div className="date">{formatDate(workout.date)}</div>
+                    {workout.notes && <p style={{ fontSize: '14px', marginTop: '8px', color: '#666' }}>{workout.notes}</p>}
                   </div>
-                  <div className="sets">
-                    {workout.sets.map((set, index) => (
-                      <div key={index} className="set-badge">
-                        {!isCardio ? (
-                          `Set ${index + 1}: ${set.reps} reps @ ${set.weight} lbs`
-                        ) : (
-                          `${set.time ? `${set.time} min` : ''} ${set.distance ? `${set.distance} mi` : ''}`
-                        )}
+                  <button
+                    className="btn-small btn-danger"
+                    onClick={() => deleteWorkout(workout.id)}
+                  >
+                    Delete
+                  </button>
+                </div>
+                <div className="sets">
+                  {workout.sets?.map((set, index) => (
+                    <div key={index} className="set-badge">
+                      Set {index + 1}: {set.reps} reps @ {set.weight} lbs
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    // Analytics View Component
+    function AnalyticsView({ token }) {
+      const [analytics, setAnalytics] = useState(null);
+      const [loading, setLoading] = useState(true);
+
+      useEffect(() => {
+        fetchAnalytics();
+      }, []);
+
+      useEffect(() => {
+        if (analytics && analytics.volumeOverTime.length > 0) {
+          renderVolumeChart();
+        }
+      }, [analytics]);
+
+      const fetchAnalytics = async () => {
+        try {
+          const response = await fetch(API_URL + '/analytics', {
+            headers: { 'Authorization': `Bearer ${token}` }
+          });
+          const data = await response.json();
+          setAnalytics(data);
+        } catch (err) {
+          console.error('Error fetching analytics:', err);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      const renderVolumeChart = () => {
+        const ctx = document.getElementById('volumeChart');
+        if (!ctx) return;
+
+        new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: analytics.volumeOverTime.map(d => d.date),
+            datasets: [{
+              label: 'Training Volume',
+              data: analytics.volumeOverTime.map(d => d.volume),
+              borderColor: '#667eea',
+              backgroundColor: 'rgba(102, 126, 234, 0.1)',
+              tension: 0.4
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+              title: {
+                display: true,
+                text: 'Training Volume Over Time (Last 30 Days)'
+              }
+            }
+          }
+        });
+      };
+
+      if (loading) {
+        return <div className="content-area">Loading analytics...</div>;
+      }
+
+      if (!analytics || analytics.totalWorkouts === 0) {
+        return (
+          <div className="content-area">
+            <div className="empty-state">
+              <h3>No Analytics Yet</h3>
+              <p>Start logging workouts to see your progress!</p>
+            </div>
+          </div>
+        );
+      }
+
+      return (
+        <div className="content-area">
+          <h2>Your Analytics</h2>
+
+          <div className="stats-grid">
+            <div className="stat-card">
+              <h3>{analytics.totalWorkouts}</h3>
+              <p>Total Workouts</p>
+            </div>
+            <div className="stat-card">
+              <h3>{analytics.totalSets}</h3>
+              <p>Total Sets</p>
+            </div>
+            <div className="stat-card">
+              <h3>{Object.keys(analytics.exerciseFrequency).length}</h3>
+              <p>Unique Exercises</p>
+            </div>
+          </div>
+
+          {analytics.volumeOverTime.length > 0 && (
+            <div className="chart-container">
+              <canvas id="volumeChart"></canvas>
+            </div>
+          )}
+
+          <div className="settings-section">
+            <h3>Exercise Frequency</h3>
+            {Object.entries(analytics.exerciseFrequency)
+              .sort((a, b) => b[1] - a[1])
+              .slice(0, 10)
+              .map(([exercise, count]) => (
+                <div key={exercise} style={{ padding: '10px 0', borderBottom: '1px solid #e0e0e0' }}>
+                  <strong>{exercise}</strong>: {count} sessions
+                </div>
+              ))}
+          </div>
+        </div>
+      );
+    }
+
+    // Settings View Component
+    function SettingsView({ token }) {
+      const [settings, setSettings] = useState(null);
+      const [loading, setLoading] = useState(true);
+      const [message, setMessage] = useState('');
+
+      const allMuscles = [
+        'chest', 'back', 'shoulders', 'biceps', 'triceps', 
+        'legs', 'quadriceps', 'hamstrings', 'calves', 'glutes',
+        'abdominals', 'forearms', 'traps', 'lats'
+      ];
+
+      const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+
+      useEffect(() => {
+        fetchSettings();
+      }, []);
+
+      const fetchSettings = async () => {
+        try {
+          const response = await fetch(API_URL + '/settings', {
+            headers: { 'Authorization': `Bearer ${token}` }
+          });
+          const data = await response.json();
+          setSettings(data);
+        } catch (err) {
+          console.error('Error fetching settings:', err);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      const toggleMuscleForDay = (day, muscle) => {
+        const newSettings = { ...settings };
+        const dayMuscles = newSettings.weeklyPlan[day] || [];
+        
+        if (dayMuscles.includes(muscle)) {
+          newSettings.weeklyPlan[day] = dayMuscles.filter(m => m !== muscle);
+        } else {
+          newSettings.weeklyPlan[day] = [...dayMuscles, muscle];
+        }
+        
+        setSettings(newSettings);
+      };
+
+      const saveSettings = async () => {
+        try {
+          const response = await fetch(API_URL + '/settings', {
+            method: 'PUT',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(settings)
+          });
+
+          if (response.ok) {
+            setMessage('Settings saved successfully!');
+            setTimeout(() => setMessage(''), 3000);
+          }
+        } catch (err) {
+          setMessage('Error saving settings');
+        }
+      };
+
+      if (loading) {
+        return <div className="content-area">Loading settings...</div>;
+      }
+
+      return (
+        <div className="content-area">
+          <h2>Workout Schedule Settings</h2>
+          <p style={{ marginBottom: '20px', color: '#666' }}>
+            Configure which muscle groups you want to work on each day of the week.
+          </p>
+
+          <div className="settings-grid">
+            <div className="settings-section">
+              <h3>Weekly Schedule</h3>
+              <div className="day-selector">
+                {days.map(day => (
+                  <div key={day} className="day-card">
+                    <h4>{day.charAt(0).toUpperCase() + day.slice(1)}</h4>
+                    {allMuscles.map(muscle => (
+                      <div key={muscle} className="muscle-checkbox">
+                        <input
+                          type="checkbox"
+                          checked={settings.weeklyPlan[day]?.includes(muscle) || false}
+                          onChange={() => toggleMuscleForDay(day, muscle)}
+                        />
+                        <label>{muscle}</label>
                       </div>
                     ))}
                   </div>
-                </div>
-              );
-            })}
+                ))}
+              </div>
+            </div>
           </div>
+
+          <button onClick={saveSettings} className="btn-success" style={{ marginTop: '20px' }}>
+            Save Settings
+          </button>
+          {message && <div className="success" style={{ marginTop: '15px' }}>{message}</div>}
         </div>
+      );
+    }
+
+    // Random Exercise Button Component
+    function RandomExerciseButton({ token }) {
+      const [showModal, setShowModal] = useState(false);
+      const [selectedMuscle, setSelectedMuscle] = useState('');
+      const [randomExercise, setRandomExercise] = useState(null);
+      const [muscles, setMuscles] = useState([]);
+
+      useEffect(() => {
+        fetchMuscles();
+      }, []);
+
+      const fetchMuscles = async () => {
+        try {
+          const response = await fetch(API_URL + '/exercises', {
+            headers: { 'Authorization': `Bearer ${token}` }
+          });
+          const data = await response.json();
+          const uniqueMuscles = [...new Set(data.flatMap(e => e.primaryMuscles || []))];
+          setMuscles(uniqueMuscles.sort());
+        } catch (err) {
+          console.error('Error fetching muscles:', err);
+        }
+      };
+
+      const getRandomExercise = async () => {
+        if (!selectedMuscle) return;
+
+        try {
+          const response = await fetch(API_URL + `/exercises/random/${selectedMuscle}`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+          });
+          const data = await response.json();
+          setRandomExercise(data);
+        } catch (err) {
+          console.error('Error getting random exercise:', err);
+        }
+      };
+
+      const imageUrl = randomExercise?.images?.[0] 
+        ? `https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/${randomExercise.images[0]}`
+        : null;
+
+      return (
+        <>
+          <button 
+            className="random-exercise-btn"
+            onClick={() => setShowModal(true)}
+            title="Get Random Exercise"
+          >
+            🎲
+          </button>
+
+          {showModal && (
+            <div className="modal" onClick={() => setShowModal(false)}>
+              <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                <button 
+                  className="modal-close"
+                  onClick={() => setShowModal(false)}
+                >
+                  ✕
+                </button>
+
+                <h2>Random Exercise Picker</h2>
+                <p style={{ marginBottom: '20px', color: '#666' }}>
+                  Need one more exercise? Pick a muscle group and get a random suggestion!
+                </p>
+
+                <div className="form-group">
+                  <label>Select Muscle Group</label>
+                  <select 
+                    value={selectedMuscle}
+                    onChange={(e) => setSelectedMuscle(e.target.value)}
+                  >
+                    <option value="">Choose a muscle...</option>
+                    {muscles.map(muscle => (
+                      <option key={muscle} value={muscle}>
+                        {muscle.charAt(0).toUpperCase() + muscle.slice(1)}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <button 
+                  onClick={getRandomExercise}
+                  disabled={!selectedMuscle}
+                  style={{ marginBottom: '20px' }}
+                >
+                  Get Random Exercise
+                </button>
+
+                {randomExercise && (
+                  <div style={{ marginTop: '20px' }}>
+                    <h3>{randomExercise.name}</h3>
+                    {imageUrl && (
+                      <img 
+                        src={imageUrl}
+                        alt={randomExercise.name}
+                        style={{ width: '100%', borderRadius: '8px', marginTop: '15px' }}
+                        onError={(e) => e.target.style.display = 'none'}
+                      />
+                    )}
+                    <p style={{ marginTop: '10px' }}>
+                      <strong>Equipment:</strong> {randomExercise.equipment || 'N/A'}
+                    </p>
+                    <p><strong>Level:</strong> {randomExercise.level || 'N/A'}</p>
+                    <p><strong>Force:</strong> {randomExercise.force || 'N/A'}</p>
+                    {randomExercise.instructions && (
+                      <div style={{ marginTop: '15px' }}>
+                        <strong>Instructions:</strong>
+                        <ol style={{ marginTop: '10px', paddingLeft: '20px' }}>
+                          {randomExercise.instructions.map((instruction, i) => (
+                            <li key={i} style={{ marginBottom: '8px' }}>
+                              {instruction}
+                            </li>
+                          ))}
+                        </ol>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+        </>
       );
     }
 

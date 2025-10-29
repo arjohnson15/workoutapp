@@ -5,6 +5,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const path = require('path');
+const https = require('https');
 
 const app = express();
 const PORT = 3001;
@@ -20,6 +21,7 @@ const DATA_DIR = path.join(__dirname, 'data');
 const USERS_FILE = path.join(DATA_DIR, 'users.json');
 const WORKOUTS_FILE = path.join(DATA_DIR, 'workouts.json');
 const EXERCISES_FILE = path.join(DATA_DIR, 'exercises.json');
+const SETTINGS_FILE = path.join(DATA_DIR, 'settings.json');
 
 // Initialize data directory and files
 if (!fs.existsSync(DATA_DIR)) {
@@ -34,102 +36,45 @@ const initializeDataFiles = () => {
   if (!fs.existsSync(WORKOUTS_FILE)) {
     fs.writeFileSync(WORKOUTS_FILE, JSON.stringify([]));
   }
-  if (!fs.existsSync(EXERCISES_FILE)) {
-    // Pre-load comprehensive exercise database
-    const exercises = [
-      // Chest Exercises
-      { id: 1, name: 'Barbell Bench Press', category: 'Chest', equipment: 'Barbell', type: 'strength' },
-      { id: 2, name: 'Dumbbell Bench Press', category: 'Chest', equipment: 'Dumbbell', type: 'strength' },
-      { id: 3, name: 'Incline Barbell Bench Press', category: 'Chest', equipment: 'Barbell', type: 'strength' },
-      { id: 4, name: 'Incline Dumbbell Press', category: 'Chest', equipment: 'Dumbbell', type: 'strength' },
-      { id: 5, name: 'Decline Bench Press', category: 'Chest', equipment: 'Barbell', type: 'strength' },
-      { id: 6, name: 'Chest Fly (Dumbbell)', category: 'Chest', equipment: 'Dumbbell', type: 'strength' },
-      { id: 7, name: 'Cable Chest Fly', category: 'Chest', equipment: 'Cable', type: 'strength' },
-      { id: 8, name: 'Push-ups', category: 'Chest', equipment: 'Bodyweight', type: 'strength' },
-      { id: 9, name: 'Chest Dips', category: 'Chest', equipment: 'Bodyweight', type: 'strength' },
-      { id: 10, name: 'Pec Deck Machine', category: 'Chest', equipment: 'Machine', type: 'strength' },
-      
-      // Back Exercises
-      { id: 11, name: 'Deadlift', category: 'Back', equipment: 'Barbell', type: 'strength' },
-      { id: 12, name: 'Barbell Row', category: 'Back', equipment: 'Barbell', type: 'strength' },
-      { id: 13, name: 'Dumbbell Row', category: 'Back', equipment: 'Dumbbell', type: 'strength' },
-      { id: 14, name: 'Pull-ups', category: 'Back', equipment: 'Bodyweight', type: 'strength' },
-      { id: 15, name: 'Chin-ups', category: 'Back', equipment: 'Bodyweight', type: 'strength' },
-      { id: 16, name: 'Lat Pulldown', category: 'Back', equipment: 'Cable', type: 'strength' },
-      { id: 17, name: 'Seated Cable Row', category: 'Back', equipment: 'Cable', type: 'strength' },
-      { id: 18, name: 'T-Bar Row', category: 'Back', equipment: 'Machine', type: 'strength' },
-      { id: 19, name: 'Face Pulls', category: 'Back', equipment: 'Cable', type: 'strength' },
-      { id: 20, name: 'Hyperextensions', category: 'Back', equipment: 'Machine', type: 'strength' },
-      
-      // Shoulder Exercises
-      { id: 21, name: 'Overhead Press (Barbell)', category: 'Shoulders', equipment: 'Barbell', type: 'strength' },
-      { id: 22, name: 'Dumbbell Shoulder Press', category: 'Shoulders', equipment: 'Dumbbell', type: 'strength' },
-      { id: 23, name: 'Arnold Press', category: 'Shoulders', equipment: 'Dumbbell', type: 'strength' },
-      { id: 24, name: 'Lateral Raise', category: 'Shoulders', equipment: 'Dumbbell', type: 'strength' },
-      { id: 25, name: 'Front Raise', category: 'Shoulders', equipment: 'Dumbbell', type: 'strength' },
-      { id: 26, name: 'Rear Delt Fly', category: 'Shoulders', equipment: 'Dumbbell', type: 'strength' },
-      { id: 27, name: 'Cable Lateral Raise', category: 'Shoulders', equipment: 'Cable', type: 'strength' },
-      { id: 28, name: 'Machine Shoulder Press', category: 'Shoulders', equipment: 'Machine', type: 'strength' },
-      { id: 29, name: 'Upright Row', category: 'Shoulders', equipment: 'Barbell', type: 'strength' },
-      { id: 30, name: 'Shrugs', category: 'Shoulders', equipment: 'Dumbbell', type: 'strength' },
-      
-      // Legs Exercises
-      { id: 31, name: 'Barbell Squat', category: 'Legs', equipment: 'Barbell', type: 'strength' },
-      { id: 32, name: 'Front Squat', category: 'Legs', equipment: 'Barbell', type: 'strength' },
-      { id: 33, name: 'Leg Press', category: 'Legs', equipment: 'Machine', type: 'strength' },
-      { id: 34, name: 'Romanian Deadlift', category: 'Legs', equipment: 'Barbell', type: 'strength' },
-      { id: 35, name: 'Leg Extension', category: 'Legs', equipment: 'Machine', type: 'strength' },
-      { id: 36, name: 'Leg Curl', category: 'Legs', equipment: 'Machine', type: 'strength' },
-      { id: 37, name: 'Lunges', category: 'Legs', equipment: 'Dumbbell', type: 'strength' },
-      { id: 38, name: 'Bulgarian Split Squat', category: 'Legs', equipment: 'Dumbbell', type: 'strength' },
-      { id: 39, name: 'Calf Raise (Standing)', category: 'Legs', equipment: 'Machine', type: 'strength' },
-      { id: 40, name: 'Calf Raise (Seated)', category: 'Legs', equipment: 'Machine', type: 'strength' },
-      { id: 41, name: 'Hack Squat', category: 'Legs', equipment: 'Machine', type: 'strength' },
-      { id: 42, name: 'Goblet Squat', category: 'Legs', equipment: 'Dumbbell', type: 'strength' },
-      
-      // Arms - Biceps
-      { id: 43, name: 'Barbell Curl', category: 'Biceps', equipment: 'Barbell', type: 'strength' },
-      { id: 44, name: 'Dumbbell Curl', category: 'Biceps', equipment: 'Dumbbell', type: 'strength' },
-      { id: 45, name: 'Hammer Curl', category: 'Biceps', equipment: 'Dumbbell', type: 'strength' },
-      { id: 46, name: 'Cable Curl', category: 'Biceps', equipment: 'Cable', type: 'strength' },
-      { id: 47, name: 'Preacher Curl', category: 'Biceps', equipment: 'Barbell', type: 'strength' },
-      { id: 48, name: 'Concentration Curl', category: 'Biceps', equipment: 'Dumbbell', type: 'strength' },
-      { id: 49, name: 'EZ Bar Curl', category: 'Biceps', equipment: 'Barbell', type: 'strength' },
-      
-      // Arms - Triceps
-      { id: 50, name: 'Tricep Dips', category: 'Triceps', equipment: 'Bodyweight', type: 'strength' },
-      { id: 51, name: 'Close-Grip Bench Press', category: 'Triceps', equipment: 'Barbell', type: 'strength' },
-      { id: 52, name: 'Tricep Pushdown', category: 'Triceps', equipment: 'Cable', type: 'strength' },
-      { id: 53, name: 'Overhead Tricep Extension', category: 'Triceps', equipment: 'Dumbbell', type: 'strength' },
-      { id: 54, name: 'Skull Crushers', category: 'Triceps', equipment: 'Barbell', type: 'strength' },
-      { id: 55, name: 'Tricep Kickback', category: 'Triceps', equipment: 'Dumbbell', type: 'strength' },
-      
-      // Core/Abs
-      { id: 56, name: 'Crunches', category: 'Abs', equipment: 'Bodyweight', type: 'strength' },
-      { id: 57, name: 'Plank', category: 'Abs', equipment: 'Bodyweight', type: 'strength' },
-      { id: 58, name: 'Russian Twists', category: 'Abs', equipment: 'Bodyweight', type: 'strength' },
-      { id: 59, name: 'Leg Raises', category: 'Abs', equipment: 'Bodyweight', type: 'strength' },
-      { id: 60, name: 'Cable Crunches', category: 'Abs', equipment: 'Cable', type: 'strength' },
-      { id: 61, name: 'Ab Wheel Rollout', category: 'Abs', equipment: 'Equipment', type: 'strength' },
-      { id: 62, name: 'Mountain Climbers', category: 'Abs', equipment: 'Bodyweight', type: 'strength' },
-      { id: 63, name: 'Bicycle Crunches', category: 'Abs', equipment: 'Bodyweight', type: 'strength' },
-      
-      // Cardio
-      { id: 64, name: 'Treadmill Running', category: 'Cardio', equipment: 'Machine', type: 'cardio' },
-      { id: 65, name: 'Treadmill Walking', category: 'Cardio', equipment: 'Machine', type: 'cardio' },
-      { id: 66, name: 'Elliptical', category: 'Cardio', equipment: 'Machine', type: 'cardio' },
-      { id: 67, name: 'Stationary Bike', category: 'Cardio', equipment: 'Machine', type: 'cardio' },
-      { id: 68, name: 'Rowing Machine', category: 'Cardio', equipment: 'Machine', type: 'cardio' },
-      { id: 69, name: 'Stair Climber', category: 'Cardio', equipment: 'Machine', type: 'cardio' },
-      { id: 70, name: 'Jump Rope', category: 'Cardio', equipment: 'Equipment', type: 'cardio' },
-      { id: 71, name: 'Swimming', category: 'Cardio', equipment: 'None', type: 'cardio' },
-      { id: 72, name: 'Cycling (Outdoor)', category: 'Cardio', equipment: 'Equipment', type: 'cardio' },
-      { id: 73, name: 'Running (Outdoor)', category: 'Cardio', equipment: 'None', type: 'cardio' },
-      { id: 74, name: 'Burpees', category: 'Cardio', equipment: 'Bodyweight', type: 'cardio' },
-      { id: 75, name: 'Box Jumps', category: 'Cardio', equipment: 'Equipment', type: 'cardio' }
-    ];
-    fs.writeFileSync(EXERCISES_FILE, JSON.stringify(exercises, null, 2));
+  if (!fs.existsSync(SETTINGS_FILE)) {
+    fs.writeFileSync(SETTINGS_FILE, JSON.stringify([]));
   }
+  if (!fs.existsSync(EXERCISES_FILE)) {
+    fs.writeFileSync(EXERCISES_FILE, JSON.stringify([]));
+  }
+  
+  // Auto-download exercises if file is empty
+  const exercises = JSON.parse(fs.readFileSync(EXERCISES_FILE, 'utf8'));
+  if (exercises.length === 0) {
+    console.log('📥 Downloading 800+ exercises from free-exercise-db...');
+    downloadExercises();
+  }
+};
+
+// Function to download exercises automatically
+const downloadExercises = () => {
+  const url = 'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/dist/exercises.json';
+  
+  https.get(url, (response) => {
+    let data = '';
+    
+    response.on('data', (chunk) => {
+      data += chunk;
+    });
+    
+    response.on('end', () => {
+      try {
+        const exercises = JSON.parse(data);
+        fs.writeFileSync(EXERCISES_FILE, JSON.stringify(exercises, null, 2));
+        console.log(`✅ Successfully downloaded ${exercises.length} exercises!`);
+      } catch (error) {
+        console.error('❌ Error parsing exercise data:', error.message);
+      }
+    });
+  }).on('error', (error) => {
+    console.error('❌ Error downloading exercises:', error.message);
+    console.log('You can manually download from: https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/dist/exercises.json');
+  });
 };
 
 initializeDataFiles();
@@ -140,6 +85,9 @@ const writeUsers = (users) => fs.writeFileSync(USERS_FILE, JSON.stringify(users,
 const readWorkouts = () => JSON.parse(fs.readFileSync(WORKOUTS_FILE, 'utf8'));
 const writeWorkouts = (workouts) => fs.writeFileSync(WORKOUTS_FILE, JSON.stringify(workouts, null, 2));
 const readExercises = () => JSON.parse(fs.readFileSync(EXERCISES_FILE, 'utf8'));
+const writeExercises = (exercises) => fs.writeFileSync(EXERCISES_FILE, JSON.stringify(exercises, null, 2));
+const readSettings = () => JSON.parse(fs.readFileSync(SETTINGS_FILE, 'utf8'));
+const writeSettings = (settings) => fs.writeFileSync(SETTINGS_FILE, JSON.stringify(settings, null, 2));
 
 // Authentication middleware
 const authenticateToken = (req, res, next) => {
@@ -187,6 +135,26 @@ app.post('/api/register', async (req, res) => {
     users.push(newUser);
     writeUsers(users);
 
+    // Create default settings for new user
+    const settings = readSettings();
+    settings.push({
+      userId: newUser.id,
+      weeklyPlan: {
+        monday: [],
+        tuesday: [],
+        wednesday: [],
+        thursday: [],
+        friday: [],
+        saturday: [],
+        sunday: []
+      },
+      preferences: {
+        exercisesPerDay: 5,
+        restDays: []
+      }
+    });
+    writeSettings(settings);
+
     res.status(201).json({ message: 'User created successfully' });
   } catch (error) {
     res.status(500).json({ error: 'Server error' });
@@ -228,12 +196,137 @@ app.get('/api/exercises', authenticateToken, (req, res) => {
   }
 });
 
-// Get exercises by category
-app.get('/api/exercises/category/:category', authenticateToken, (req, res) => {
+// Get exercises by primary muscle
+app.get('/api/exercises/muscle/:muscle', authenticateToken, (req, res) => {
   try {
     const exercises = readExercises();
-    const filtered = exercises.filter(e => e.category.toLowerCase() === req.params.category.toLowerCase());
+    const filtered = exercises.filter(e => 
+      e.primaryMuscles && e.primaryMuscles.some(m => 
+        m.toLowerCase() === req.params.muscle.toLowerCase()
+      )
+    );
     res.json(filtered);
+  } catch (error) {
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// Get random exercise by muscle group
+app.get('/api/exercises/random/:muscle', authenticateToken, (req, res) => {
+  try {
+    const exercises = readExercises();
+    const filtered = exercises.filter(e => 
+      e.primaryMuscles && e.primaryMuscles.some(m => 
+        m.toLowerCase() === req.params.muscle.toLowerCase()
+      )
+    );
+    
+    if (filtered.length === 0) {
+      return res.status(404).json({ error: 'No exercises found for this muscle group' });
+    }
+    
+    const randomExercise = filtered[Math.floor(Math.random() * filtered.length)];
+    res.json(randomExercise);
+  } catch (error) {
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// Get user settings
+app.get('/api/settings', authenticateToken, (req, res) => {
+  try {
+    const settings = readSettings();
+    const userSettings = settings.find(s => s.userId === req.user.id);
+    
+    if (!userSettings) {
+      // Create default settings if they don't exist
+      const defaultSettings = {
+        userId: req.user.id,
+        weeklyPlan: {
+          monday: [],
+          tuesday: [],
+          wednesday: [],
+          thursday: [],
+          friday: [],
+          saturday: [],
+          sunday: []
+        },
+        preferences: {
+          exercisesPerDay: 5,
+          restDays: []
+        }
+      };
+      settings.push(defaultSettings);
+      writeSettings(settings);
+      return res.json(defaultSettings);
+    }
+    
+    res.json(userSettings);
+  } catch (error) {
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// Update user settings
+app.put('/api/settings', authenticateToken, (req, res) => {
+  try {
+    const settings = readSettings();
+    const userSettingsIndex = settings.findIndex(s => s.userId === req.user.id);
+    
+    if (userSettingsIndex === -1) {
+      settings.push({
+        userId: req.user.id,
+        ...req.body
+      });
+    } else {
+      settings[userSettingsIndex] = {
+        userId: req.user.id,
+        ...req.body
+      };
+    }
+    
+    writeSettings(settings);
+    res.json({ message: 'Settings updated successfully' });
+  } catch (error) {
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// Get today's workout plan
+app.get('/api/today-plan', authenticateToken, (req, res) => {
+  try {
+    const settings = readSettings();
+    const userSettings = settings.find(s => s.userId === req.user.id);
+    
+    if (!userSettings) {
+      return res.json({ muscles: [], exercises: [] });
+    }
+    
+    const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+    const today = days[new Date().getDay()];
+    const todaysMuscles = userSettings.weeklyPlan[today] || [];
+    
+    const exercises = readExercises();
+    const todaysExercises = [];
+    
+    todaysMuscles.forEach(muscle => {
+      const muscleExercises = exercises.filter(e => 
+        e.primaryMuscles && e.primaryMuscles.some(m => 
+          m.toLowerCase() === muscle.toLowerCase()
+        )
+      );
+      
+      // Get random exercises for this muscle group
+      const count = Math.min(userSettings.preferences.exercisesPerDay || 5, muscleExercises.length);
+      const shuffled = muscleExercises.sort(() => 0.5 - Math.random());
+      todaysExercises.push(...shuffled.slice(0, count));
+    });
+    
+    res.json({
+      day: today,
+      muscles: todaysMuscles,
+      exercises: todaysExercises
+    });
   } catch (error) {
     res.status(500).json({ error: 'Server error' });
   }
@@ -242,7 +335,7 @@ app.get('/api/exercises/category/:category', authenticateToken, (req, res) => {
 // Log workout
 app.post('/api/workouts', authenticateToken, (req, res) => {
   try {
-    const { exerciseId, exerciseName, sets } = req.body;
+    const { exerciseId, exerciseName, sets, notes } = req.body;
     
     const workouts = readWorkouts();
     const newWorkout = {
@@ -250,7 +343,8 @@ app.post('/api/workouts', authenticateToken, (req, res) => {
       userId: req.user.id,
       exerciseId,
       exerciseName,
-      sets, // Array of {reps, weight} for strength or {time, distance} for cardio
+      sets,
+      notes: notes || '',
       date: new Date().toISOString()
     };
 
@@ -294,6 +388,76 @@ app.get('/api/workouts/range', authenticateToken, (req, res) => {
   }
 });
 
+// Get analytics data
+app.get('/api/analytics', authenticateToken, (req, res) => {
+  try {
+    const workouts = readWorkouts();
+    const userWorkouts = workouts.filter(w => w.userId === req.user.id);
+    
+    // Calculate various analytics
+    const analytics = {
+      totalWorkouts: userWorkouts.length,
+      totalSets: userWorkouts.reduce((sum, w) => sum + (w.sets?.length || 0), 0),
+      exerciseFrequency: {},
+      volumeOverTime: [],
+      strengthProgress: {}
+    };
+    
+    // Exercise frequency
+    userWorkouts.forEach(workout => {
+      const name = workout.exerciseName;
+      analytics.exerciseFrequency[name] = (analytics.exerciseFrequency[name] || 0) + 1;
+    });
+    
+    // Volume over time (last 30 days)
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+    
+    const recentWorkouts = userWorkouts.filter(w => new Date(w.date) >= thirtyDaysAgo);
+    
+    // Group by date
+    const volumeByDate = {};
+    recentWorkouts.forEach(workout => {
+      const date = new Date(workout.date).toISOString().split('T')[0];
+      if (!volumeByDate[date]) {
+        volumeByDate[date] = { date, volume: 0, workouts: 0 };
+      }
+      volumeByDate[date].workouts += 1;
+      
+      // Calculate volume (sets * reps * weight)
+      workout.sets?.forEach(set => {
+        if (set.reps && set.weight) {
+          volumeByDate[date].volume += parseInt(set.reps) * parseInt(set.weight);
+        }
+      });
+    });
+    
+    analytics.volumeOverTime = Object.values(volumeByDate).sort((a, b) => 
+      new Date(a.date) - new Date(b.date)
+    );
+    
+    // Strength progress for each exercise (max weight over time)
+    userWorkouts.forEach(workout => {
+      const name = workout.exerciseName;
+      if (!analytics.strengthProgress[name]) {
+        analytics.strengthProgress[name] = [];
+      }
+      
+      const maxWeight = Math.max(...(workout.sets?.map(s => parseInt(s.weight) || 0) || [0]));
+      if (maxWeight > 0) {
+        analytics.strengthProgress[name].push({
+          date: new Date(workout.date).toISOString().split('T')[0],
+          weight: maxWeight
+        });
+      }
+    });
+    
+    res.json(analytics);
+  } catch (error) {
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
 // Delete workout
 app.delete('/api/workouts/:id', authenticateToken, (req, res) => {
   try {
@@ -315,4 +479,5 @@ app.delete('/api/workouts/:id', authenticateToken, (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
+  console.log('To download exercises, run: node download-exercises.js');
 });

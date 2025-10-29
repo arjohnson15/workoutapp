@@ -15,33 +15,59 @@
       box-sizing: border-box;
     }
 
+    :root {
+      --bg-primary: #0a0e14;
+      --bg-secondary: #151b23;
+      --bg-tertiary: #1e2530;
+      --bg-card: #252d3a;
+      --accent-primary: #00d4ff;
+      --accent-secondary: #00a8cc;
+      --accent-danger: #ff4757;
+      --accent-success: #2ed573;
+      --accent-warning: #ffa502;
+      --text-primary: #e8eaed;
+      --text-secondary: #9aa5b1;
+      --text-muted: #6c7a89;
+      --border-color: #2d3748;
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.5);
+    }
+
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
       min-height: 100vh;
       padding: 20px;
+      line-height: 1.6;
     }
 
     .container {
-      max-width: 1400px;
+      max-width: 1600px;
       margin: 0 auto;
     }
 
+    /* Auth Screen */
     .auth-container {
-      max-width: 400px;
+      max-width: 420px;
       margin: 100px auto;
-      background: white;
+      background: var(--bg-card);
       padding: 40px;
       border-radius: 12px;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--border-color);
     }
 
     .auth-container h2 {
       text-align: center;
       margin-bottom: 30px;
-      color: #333;
+      color: var(--accent-primary);
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
     }
 
+    /* Form Elements */
     .form-group {
       margin-bottom: 20px;
     }
@@ -49,507 +75,684 @@
     .form-group label {
       display: block;
       margin-bottom: 8px;
-      color: #555;
+      color: var(--text-secondary);
       font-weight: 500;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
     .form-group input,
     .form-group select,
     .form-group textarea {
       width: 100%;
-      padding: 12px;
-      border: 2px solid #e0e0e0;
-      border-radius: 8px;
+      padding: 12px 16px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      color: var(--text-primary);
       font-size: 14px;
-      transition: border-color 0.3s;
+      transition: all 0.2s;
     }
 
     .form-group input:focus,
     .form-group select:focus,
     .form-group textarea:focus {
       outline: none;
-      border-color: #667eea;
+      border-color: var(--accent-primary);
+      background: var(--bg-tertiary);
+      box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
     }
 
+    /* Buttons */
     button {
-      width: 100%;
-      padding: 12px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
+      padding: 12px 24px;
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+      color: var(--bg-primary);
       border: none;
-      border-radius: 8px;
-      font-size: 16px;
+      border-radius: 6px;
+      font-size: 14px;
       font-weight: 600;
       cursor: pointer;
-      transition: transform 0.2s;
+      transition: all 0.2s;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
     button:hover {
       transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 212, 255, 0.3);
     }
 
     button:active {
       transform: translateY(0);
     }
 
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
     .btn-secondary {
-      background: #6c757d;
+      background: var(--bg-tertiary);
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
       margin-top: 10px;
+      width: 100%;
+    }
+
+    .btn-secondary:hover {
+      background: var(--bg-card);
+      box-shadow: none;
     }
 
     .btn-small {
-      width: auto;
       padding: 8px 16px;
-      font-size: 14px;
+      font-size: 12px;
       margin: 5px;
+      width: auto;
     }
 
     .btn-danger {
-      background: #dc3545;
+      background: var(--accent-danger);
+      color: white;
     }
 
     .btn-success {
-      background: #28a745;
+      background: var(--accent-success);
+      color: white;
     }
 
-    .btn-info {
-      background: #17a2b8;
+    .btn-warning {
+      background: var(--accent-warning);
+      color: var(--bg-primary);
+    }
+
+    .btn-icon {
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .error {
-      color: #dc3545;
-      font-size: 14px;
+      color: var(--accent-danger);
+      font-size: 13px;
       margin-top: 10px;
       text-align: center;
+      padding: 10px;
+      background: rgba(255, 71, 87, 0.1);
+      border-radius: 6px;
+      border: 1px solid rgba(255, 71, 87, 0.2);
     }
 
     .success {
-      color: #28a745;
-      font-size: 14px;
+      color: var(--accent-success);
+      font-size: 13px;
       margin-top: 10px;
       text-align: center;
+      padding: 10px;
+      background: rgba(46, 213, 115, 0.1);
+      border-radius: 6px;
+      border: 1px solid rgba(46, 213, 115, 0.2);
     }
 
+    /* Header */
     .app-header {
-      background: white;
-      padding: 20px;
+      background: var(--bg-card);
+      padding: 24px 32px;
       border-radius: 12px;
       margin-bottom: 20px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      box-shadow: var(--shadow);
       display: flex;
       justify-content: space-between;
       align-items: center;
+      border: 1px solid var(--border-color);
     }
 
     .app-header h1 {
-      color: #333;
       font-size: 28px;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.5px;
     }
 
     .user-info {
       display: flex;
       align-items: center;
       gap: 15px;
+      color: var(--text-secondary);
     }
 
-    .main-content {
-      display: grid;
-      grid-template-columns: 300px 1fr;
-      gap: 20px;
+    .user-info strong {
+      color: var(--accent-primary);
     }
 
-    .sidebar {
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      height: fit-content;
-    }
-
-    .sidebar h3 {
-      margin-bottom: 15px;
-      color: #333;
-    }
-
-    .category-list {
-      list-style: none;
-    }
-
-    .category-item {
-      padding: 12px;
-      margin-bottom: 8px;
-      background: #f8f9fa;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-
-    .category-item:hover {
-      background: #e9ecef;
-      transform: translateX(5px);
-    }
-
-    .category-item.active {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-    }
-
-    .content-area {
-      background: white;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    .exercise-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 15px;
-      margin-bottom: 30px;
-    }
-
-    .exercise-card {
-      padding: 15px;
-      background: #f8f9fa;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.3s;
-      border: 2px solid transparent;
-      position: relative;
-    }
-
-    .exercise-card:hover {
-      border-color: #667eea;
-      transform: translateY(-3px);
-      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
-    }
-
-    .exercise-card.selected {
-      border-color: #667eea;
-      background: #e7e9fc;
-    }
-
-    .exercise-card h4 {
-      color: #333;
-      margin-bottom: 8px;
-    }
-
-    .exercise-card p {
-      color: #666;
-      font-size: 13px;
-      margin: 4px 0;
-    }
-
-    .exercise-badge {
-      display: inline-block;
-      padding: 4px 8px;
-      background: #667eea;
-      color: white;
-      border-radius: 4px;
-      font-size: 11px;
-      margin-top: 8px;
-      margin-right: 4px;
-    }
-
-    .workout-form {
-      background: #f8f9fa;
-      padding: 25px;
-      border-radius: 8px;
-      margin-top: 20px;
-    }
-
-    .workout-form h3 {
-      margin-bottom: 20px;
-      color: #333;
-    }
-
-    .sets-container {
-      margin-top: 20px;
-    }
-
-    .set-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr auto;
-      gap: 15px;
-      margin-bottom: 15px;
-      align-items: end;
-    }
-
-    .workout-history {
-      margin-top: 30px;
-    }
-
-    .workout-history h3 {
-      margin-bottom: 20px;
-      color: #333;
-    }
-
-    .workout-item {
-      background: #f8f9fa;
-      padding: 20px;
-      border-radius: 8px;
-      margin-bottom: 15px;
-      border-left: 4px solid #667eea;
-    }
-
-    .workout-item h4 {
-      color: #333;
-      margin-bottom: 10px;
-    }
-
-    .workout-item .date {
-      color: #666;
-      font-size: 13px;
-      margin-bottom: 10px;
-    }
-
-    .workout-item .sets {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 10px;
-    }
-
-    .set-badge {
-      background: white;
-      padding: 8px 12px;
-      border-radius: 6px;
-      font-size: 13px;
-      color: #333;
-    }
-
+    /* Tabs */
     .tabs {
       display: flex;
-      gap: 10px;
+      gap: 8px;
       margin-bottom: 20px;
-      border-bottom: 2px solid #e0e0e0;
+      background: var(--bg-card);
+      padding: 8px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      overflow-x: auto;
     }
 
     .tab {
       padding: 12px 24px;
-      background: none;
+      background: transparent;
       border: none;
-      border-bottom: 3px solid transparent;
+      border-radius: 8px;
       cursor: pointer;
-      font-size: 16px;
-      color: #666;
-      transition: all 0.3s;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      transition: all 0.2s;
+      white-space: nowrap;
       width: auto;
     }
 
     .tab.active {
-      color: #667eea;
-      border-bottom-color: #667eea;
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+      color: var(--bg-primary);
+      box-shadow: 0 2px 8px rgba(0, 212, 255, 0.3);
     }
 
-    .tab:hover {
-      color: #667eea;
+    .tab:hover:not(.active) {
+      background: var(--bg-tertiary);
+      color: var(--text-primary);
     }
 
-    .empty-state {
-      text-align: center;
-      padding: 60px 20px;
-      color: #666;
-    }
-
-    .empty-state h3 {
-      margin-bottom: 10px;
-      color: #333;
-    }
-
-    .today-plan {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      padding: 30px;
+    /* Content Area */
+    .content-area {
+      background: var(--bg-card);
+      padding: 32px;
       border-radius: 12px;
-      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border-color);
     }
 
-    .today-plan h2 {
-      margin-bottom: 10px;
-    }
-
-    .today-plan .day-name {
+    .content-area h2 {
+      margin-bottom: 24px;
+      color: var(--accent-primary);
       font-size: 24px;
-      font-weight: bold;
-      margin-bottom: 15px;
+      font-weight: 600;
+      letter-spacing: -0.5px;
     }
 
-    .muscle-chips {
+    /* Workout Day Cards */
+    .workout-day-container {
+      display: grid;
+      gap: 16px;
+    }
+
+    .workout-day-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      overflow: hidden;
+      transition: all 0.2s;
+    }
+
+    .workout-day-card.active {
+      border-color: var(--accent-primary);
+      box-shadow: 0 0 0 2px rgba(0, 212, 255, 0.1);
+    }
+
+    .workout-day-header {
       display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 15px;
-    }
-
-    .muscle-chip {
-      background: rgba(255, 255, 255, 0.2);
-      padding: 8px 16px;
-      border-radius: 20px;
-      font-size: 14px;
-    }
-
-    .settings-grid {
-      display: grid;
-      gap: 20px;
-    }
-
-    .settings-section {
-      background: #f8f9fa;
+      justify-content: space-between;
+      align-items: center;
       padding: 20px;
-      border-radius: 8px;
+      cursor: pointer;
+      user-select: none;
     }
 
-    .settings-section h3 {
-      margin-bottom: 15px;
-      color: #333;
+    .workout-day-header:hover {
+      background: var(--bg-tertiary);
     }
 
-    .day-selector {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 15px;
-      margin-top: 15px;
-    }
-
-    .day-card {
-      background: white;
-      padding: 15px;
-      border-radius: 8px;
-      border: 2px solid #e0e0e0;
-    }
-
-    .day-card h4 {
-      margin-bottom: 10px;
-      color: #333;
-    }
-
-    .muscle-checkbox {
+    .day-title {
       display: flex;
       align-items: center;
-      margin: 8px 0;
+      gap: 12px;
     }
 
-    .muscle-checkbox input {
-      margin-right: 8px;
-      width: auto;
+    .day-name {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-primary);
     }
 
-    .chart-container {
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    .day-badge {
+      padding: 4px 12px;
+      background: rgba(0, 212, 255, 0.1);
+      border: 1px solid rgba(0, 212, 255, 0.3);
+      border-radius: 12px;
+      font-size: 11px;
+      color: var(--accent-primary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
-    .chart-container canvas {
-      max-height: 400px;
+    .day-badge.today {
+      background: rgba(46, 213, 115, 0.1);
+      border-color: rgba(46, 213, 115, 0.3);
+      color: var(--accent-success);
     }
 
-    .stats-grid {
+    .expand-icon {
+      transition: transform 0.2s;
+      color: var(--text-secondary);
+    }
+
+    .expand-icon.expanded {
+      transform: rotate(180deg);
+    }
+
+    .workout-day-content {
+      padding: 0 20px 20px 20px;
+    }
+
+    /* Exercise List */
+    .exercise-list {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 15px;
-      margin-bottom: 20px;
+      gap: 12px;
     }
 
-    .stat-card {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      padding: 20px;
+    .exercise-item {
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-color);
       border-radius: 8px;
-      text-align: center;
+      overflow: hidden;
+      transition: all 0.2s;
     }
 
-    .stat-card h3 {
-      font-size: 32px;
-      margin-bottom: 5px;
+    .exercise-item.expanded {
+      border-color: var(--accent-primary);
     }
 
-    .stat-card p {
+    .exercise-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px;
+      cursor: pointer;
+    }
+
+    .exercise-header:hover {
+      background: rgba(0, 212, 255, 0.05);
+    }
+
+    .exercise-info {
+      flex: 1;
+    }
+
+    .exercise-name {
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .exercise-meta {
+      display: flex;
+      gap: 12px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      flex-wrap: wrap;
+    }
+
+    .exercise-meta span {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .previous-data {
+      padding: 8px 12px;
+      background: rgba(0, 212, 255, 0.1);
+      border-radius: 6px;
+      font-size: 12px;
+      color: var(--accent-primary);
+      white-space: nowrap;
+    }
+
+    .exercise-details {
+      padding: 16px;
+      border-top: 1px solid var(--border-color);
+      background: var(--bg-secondary);
+    }
+
+    .exercise-description {
+      color: var(--text-secondary);
       font-size: 14px;
-      opacity: 0.9;
+      margin-bottom: 16px;
+      line-height: 1.6;
+    }
+
+    .exercise-instructions {
+      margin-top: 12px;
+      margin-bottom: 16px;
+    }
+
+    .exercise-instructions h4 {
+      color: var(--accent-primary);
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .exercise-instructions ol {
+      padding-left: 20px;
+      color: var(--text-secondary);
+      font-size: 13px;
+    }
+
+    .exercise-instructions li {
+      margin-bottom: 8px;
+      line-height: 1.5;
     }
 
     .exercise-image {
       width: 100%;
-      height: 150px;
-      object-fit: cover;
+      max-width: 400px;
+      height: auto;
       border-radius: 8px;
-      margin-bottom: 10px;
+      margin-bottom: 16px;
     }
 
-    .random-exercise-btn {
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      border: none;
-      font-size: 24px;
+    /* Set Input */
+    .sets-input-container {
+      margin-top: 16px;
+    }
+
+    .set-input-row {
+      display: grid;
+      grid-template-columns: 80px 100px 100px 1fr auto;
+      gap: 12px;
+      margin-bottom: 12px;
+      align-items: end;
+    }
+
+    .set-input-row input {
+      padding: 10px 12px;
+      font-size: 14px;
+    }
+
+    .set-label {
+      font-size: 13px;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .notes-input {
+      margin-top: 16px;
+    }
+
+    .notes-input textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    /* Day Settings */
+    .day-settings {
+      margin-top: 20px;
+    }
+
+    .muscle-group-selector {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .muscle-group-card {
+      background: var(--bg-secondary);
+      border: 2px solid var(--border-color);
+      border-radius: 8px;
+      padding: 16px;
       cursor: pointer;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-      transition: transform 0.2s;
-      z-index: 1000;
+      transition: all 0.2s;
     }
 
-    .random-exercise-btn:hover {
-      transform: scale(1.1);
+    .muscle-group-card.selected {
+      border-color: var(--accent-primary);
+      background: rgba(0, 212, 255, 0.05);
     }
 
+    .muscle-group-card:hover {
+      border-color: var(--accent-secondary);
+      transform: translateY(-2px);
+    }
+
+    .muscle-group-name {
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .muscle-group-count {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    /* Exercise Selection Modal */
     .modal {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(0, 0, 0, 0.5);
+      background: rgba(0, 0, 0, 0.8);
       display: flex;
       align-items: center;
       justify-content: center;
       z-index: 2000;
+      padding: 20px;
     }
 
     .modal-content {
-      background: white;
-      padding: 30px;
+      background: var(--bg-card);
+      padding: 32px;
       border-radius: 12px;
-      max-width: 600px;
-      max-height: 80vh;
+      max-width: 900px;
+      width: 100%;
+      max-height: 90vh;
       overflow-y: auto;
       position: relative;
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .modal-header h3 {
+      color: var(--accent-primary);
+      font-size: 24px;
     }
 
     .modal-close {
-      position: absolute;
-      top: 15px;
-      right: 15px;
       width: auto;
       padding: 8px 12px;
-      background: #dc3545;
+      background: var(--accent-danger);
     }
 
+    .exercise-search {
+      margin-bottom: 20px;
+    }
+
+    .exercise-search input {
+      width: 100%;
+      padding: 12px 16px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      color: var(--text-primary);
+      font-size: 14px;
+    }
+
+    .exercise-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 12px;
+    }
+
+    .exercise-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 16px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .exercise-card:hover {
+      border-color: var(--accent-primary);
+      transform: translateY(-2px);
+    }
+
+    .exercise-card h4 {
+      color: var(--text-primary);
+      margin-bottom: 8px;
+      font-size: 15px;
+    }
+
+    .exercise-card p {
+      color: var(--text-secondary);
+      font-size: 12px;
+      margin-bottom: 4px;
+    }
+
+    .exercise-badge {
+      display: inline-block;
+      padding: 4px 8px;
+      background: rgba(0, 212, 255, 0.1);
+      border: 1px solid rgba(0, 212, 255, 0.3);
+      color: var(--accent-primary);
+      border-radius: 4px;
+      font-size: 10px;
+      margin-right: 4px;
+      margin-top: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-secondary);
+    }
+
+    .empty-state h3 {
+      color: var(--text-primary);
+      margin-bottom: 10px;
+      font-size: 20px;
+    }
+
+    /* Stats */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: linear-gradient(135deg, var(--bg-tertiary), var(--bg-secondary));
+      border: 1px solid var(--border-color);
+      padding: 24px;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .stat-card h3 {
+      font-size: 36px;
+      margin-bottom: 8px;
+      color: var(--accent-primary);
+      font-weight: 700;
+    }
+
+    .stat-card p {
+      font-size: 12px;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg-secondary);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--border-color);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--text-muted);
+    }
+
+    /* Action Buttons */
+    .action-buttons {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    /* Responsive */
     @media (max-width: 768px) {
-      .main-content {
-        grid-template-columns: 1fr;
-      }
-
-      .exercise-grid {
-        grid-template-columns: 1fr;
-      }
-
       .app-header {
         flex-direction: column;
-        gap: 15px;
+        gap: 16px;
+        text-align: center;
       }
 
       .tabs {
-        flex-wrap: wrap;
+        overflow-x: auto;
       }
+
+      .set-input-row {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .muscle-group-selector {
+        grid-template-columns: 1fr;
+      }
+
+      .action-buttons {
+        flex-direction: column;
+      }
+    }
+
+    /* Loading Spinner */
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid var(--bg-tertiary);
+      border-top-color: var(--accent-primary);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
     }
   </style>
 </head>
@@ -561,11 +764,28 @@
 
     const API_URL = 'http://localhost:3001/api';
 
+    // Utility function to determine if exercise is cardio
+    const isCardioExercise = (exercise) => {
+      if (!exercise) return false;
+      
+      // Check category field
+      if (exercise.category === 'cardio') return true;
+      
+      // Check exercise name for cardio keywords
+      const cardioKeywords = [
+        'treadmill', 'running', 'cycling', 'bike', 'elliptical', 
+        'rowing', 'swimming', 'stair', 'walk', 'jog', 'sprint', 'cardio'
+      ];
+      
+      const name = (exercise.name || '').toLowerCase();
+      return cardioKeywords.some(keyword => name.includes(keyword));
+    };
+
     // Main App Component
     function App() {
       const [token, setToken] = useState(localStorage.getItem('token'));
       const [username, setUsername] = useState(localStorage.getItem('username'));
-      const [currentView, setCurrentView] = useState('home');
+      const [currentView, setCurrentView] = useState('today');
 
       const handleLogin = (token, username) => {
         localStorage.setItem('token', token);
@@ -588,9 +808,9 @@
       return (
         <div className="container">
           <div className="app-header">
-            <h1>💪 Workout Tracker Pro</h1>
+            <h1>⚡ WORKOUT TRACKER</h1>
             <div className="user-info">
-              <span>Welcome, <strong>{username}</strong></span>
+              <span>Logged in as <strong>{username}</strong></span>
               <button className="btn-small btn-secondary" onClick={handleLogout}>
                 Logout
               </button>
@@ -599,44 +819,42 @@
 
           <div className="tabs">
             <button 
-              className={`tab ${currentView === 'home' ? 'active' : ''}`}
-              onClick={() => setCurrentView('home')}
+              className={`tab ${currentView === 'today' ? 'active' : ''}`}
+              onClick={() => setCurrentView('today')}
             >
-              🏠 Home
-            </button>
-            <button 
-              className={`tab ${currentView === 'log' ? 'active' : ''}`}
-              onClick={() => setCurrentView('log')}
-            >
-              📝 Log Workout
-            </button>
-            <button 
-              className={`tab ${currentView === 'history' ? 'active' : ''}`}
-              onClick={() => setCurrentView('history')}
-            >
-              📜 History
-            </button>
-            <button 
-              className={`tab ${currentView === 'analytics' ? 'active' : ''}`}
-              onClick={() => setCurrentView('analytics')}
-            >
-              📊 Analytics
+              🏋️ TODAY'S WORKOUT
             </button>
             <button 
               className={`tab ${currentView === 'settings' ? 'active' : ''}`}
               onClick={() => setCurrentView('settings')}
             >
-              ⚙️ Settings
+              ⚙️ PLAN WORKOUTS
+            </button>
+            <button 
+              className={`tab ${currentView === 'exercises' ? 'active' : ''}`}
+              onClick={() => setCurrentView('exercises')}
+            >
+              📚 MANAGE EXERCISES
+            </button>
+            <button 
+              className={`tab ${currentView === 'history' ? 'active' : ''}`}
+              onClick={() => setCurrentView('history')}
+            >
+              📜 HISTORY
+            </button>
+            <button 
+              className={`tab ${currentView === 'analytics' ? 'active' : ''}`}
+              onClick={() => setCurrentView('analytics')}
+            >
+              📊 ANALYTICS
             </button>
           </div>
 
-          {currentView === 'home' && <HomeView token={token} />}
-          {currentView === 'log' && <WorkoutLogger token={token} />}
+          {currentView === 'today' && <TodayWorkoutView token={token} />}
+          {currentView === 'settings' && <WorkoutPlannerView token={token} />}
+          {currentView === 'exercises' && <ExerciseManager token={token} />}
           {currentView === 'history' && <WorkoutHistory token={token} />}
           {currentView === 'analytics' && <AnalyticsView token={token} />}
-          {currentView === 'settings' && <SettingsView token={token} />}
-
-          <RandomExerciseButton token={token} />
         </div>
       );
     }
@@ -683,7 +901,7 @@
 
       return (
         <div className="auth-container">
-          <h2>{isLogin ? 'Login' : 'Create Account'}</h2>
+          <h2>{isLogin ? 'LOGIN' : 'CREATE ACCOUNT'}</h2>
           <form onSubmit={handleSubmit}>
             <div className="form-group">
               <label>Username</label>
@@ -705,7 +923,7 @@
               />
             </div>
             <button type="submit">
-              {isLogin ? 'Login' : 'Create Account'}
+              {isLogin ? 'LOGIN' : 'CREATE ACCOUNT'}
             </button>
           </form>
           <button 
@@ -724,9 +942,306 @@
       );
     }
 
-    // Home View Component
-    function HomeView({ token }) {
+    // Exercise Manager Component (NEW)
+    function ExerciseManager({ token }) {
+      const [exercises, setExercises] = useState([]);
+      const [searchTerm, setSearchTerm] = useState('');
+      const [showAddModal, setShowAddModal] = useState(false);
+      const [editingExercise, setEditingExercise] = useState(null);
+      const [loading, setLoading] = useState(true);
+
+      useEffect(() => {
+        fetchExercises();
+      }, []);
+
+      const fetchExercises = async () => {
+        try {
+          const response = await fetch(API_URL + '/exercises', {
+            headers: { 'Authorization': `Bearer ${token}` }
+          });
+          const data = await response.json();
+          setExercises(data);
+        } catch (err) {
+          console.error('Error fetching exercises:', err);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      const filteredExercises = exercises.filter(e =>
+        e.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+
+      return (
+        <div className="content-area">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+            <h2>Exercise Database</h2>
+            <button 
+              className="btn-success btn-small"
+              onClick={() => {
+                setEditingExercise(null);
+                setShowAddModal(true);
+              }}
+            >
+              ✚ ADD CUSTOM EXERCISE
+            </button>
+          </div>
+
+          <div className="exercise-search">
+            <input
+              type="text"
+              placeholder="Search exercises..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+
+          <div style={{ color: 'var(--text-secondary)', marginBottom: '16px', fontSize: '14px' }}>
+            Showing {filteredExercises.length} of {exercises.length} exercises
+          </div>
+
+          {loading ? (
+            <div style={{ textAlign: 'center', padding: '40px' }}>
+              <div className="loading"></div>
+            </div>
+          ) : (
+            <div className="exercise-grid">
+              {filteredExercises.map(exercise => (
+                <div key={exercise.id} className="exercise-card">
+                  {exercise.images && exercise.images[0] && (
+                    <img 
+                      src={`https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/${exercise.images[0]}`}
+                      alt={exercise.name}
+                      style={{ width: '100%', height: '150px', objectFit: 'cover', borderRadius: '6px', marginBottom: '12px' }}
+                      onError={(e) => e.target.style.display = 'none'}
+                    />
+                  )}
+                  <h4>{exercise.name}</h4>
+                  <p>Category: {exercise.category || 'N/A'}</p>
+                  <p>Equipment: {exercise.equipment || 'N/A'}</p>
+                  <p>Level: {exercise.level || 'N/A'}</p>
+                  <div>
+                    {exercise.primaryMuscles?.slice(0, 2).map(muscle => (
+                      <span key={muscle} className="exercise-badge">{muscle}</span>
+                    ))}
+                  </div>
+                  <div style={{ marginTop: '12px', display: 'flex', gap: '8px' }}>
+                    <button
+                      className="btn-small btn-warning"
+                      onClick={() => {
+                        setEditingExercise(exercise);
+                        setShowAddModal(true);
+                      }}
+                    >
+                      EDIT
+                    </button>
+                    {exercise.isCustom && (
+                      <button
+                        className="btn-small btn-danger"
+                        onClick={() => deleteExercise(exercise.id)}
+                      >
+                        DELETE
+                      </button>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {showAddModal && (
+            <ExerciseFormModal
+              exercise={editingExercise}
+              onClose={() => setShowAddModal(false)}
+              onSave={() => {
+                setShowAddModal(false);
+                fetchExercises();
+              }}
+              token={token}
+            />
+          )}
+        </div>
+      );
+    }
+
+    // Exercise Form Modal Component (NEW)
+    function ExerciseFormModal({ exercise, onClose, onSave, token }) {
+      const [formData, setFormData] = useState(exercise || {
+        name: '',
+        category: 'strength',
+        equipment: '',
+        level: 'intermediate',
+        primaryMuscles: [],
+        secondaryMuscles: [],
+        instructions: [''],
+        force: '',
+        mechanic: ''
+      });
+
+      const handleSubmit = async (e) => {
+        e.preventDefault();
+        
+        try {
+          const url = exercise 
+            ? `${API_URL}/exercises/${exercise.id}`
+            : `${API_URL}/exercises`;
+          
+          const method = exercise ? 'PUT' : 'POST';
+
+          const response = await fetch(url, {
+            method,
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              ...formData,
+              isCustom: true
+            })
+          });
+
+          if (response.ok) {
+            alert(exercise ? 'Exercise updated!' : 'Exercise created!');
+            onSave();
+          }
+        } catch (err) {
+          alert('Error saving exercise');
+        }
+      };
+
+      const addInstruction = () => {
+        setFormData({
+          ...formData,
+          instructions: [...formData.instructions, '']
+        });
+      };
+
+      const updateInstruction = (index, value) => {
+        const newInstructions = [...formData.instructions];
+        newInstructions[index] = value;
+        setFormData({ ...formData, instructions: newInstructions });
+      };
+
+      const removeInstruction = (index) => {
+        setFormData({
+          ...formData,
+          instructions: formData.instructions.filter((_, i) => i !== index)
+        });
+      };
+
+      return (
+        <div className="modal" onClick={onClose}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '700px' }}>
+            <div className="modal-header">
+              <h3>{exercise ? 'Edit Exercise' : 'Add Custom Exercise'}</h3>
+              <button className="modal-close" onClick={onClose}>✕</button>
+            </div>
+
+            <form onSubmit={handleSubmit}>
+              <div className="form-group">
+                <label>Exercise Name *</label>
+                <input
+                  type="text"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Category *</label>
+                <select
+                  value={formData.category}
+                  onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                >
+                  <option value="strength">Strength</option>
+                  <option value="cardio">Cardio</option>
+                  <option value="flexibility">Flexibility</option>
+                </select>
+              </div>
+
+              <div className="form-group">
+                <label>Equipment</label>
+                <input
+                  type="text"
+                  value={formData.equipment}
+                  onChange={(e) => setFormData({ ...formData, equipment: e.target.value })}
+                  placeholder="e.g., barbell, dumbbell, bodyweight"
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Level</label>
+                <select
+                  value={formData.level}
+                  onChange={(e) => setFormData({ ...formData, level: e.target.value })}
+                >
+                  <option value="beginner">Beginner</option>
+                  <option value="intermediate">Intermediate</option>
+                  <option value="expert">Expert</option>
+                </select>
+              </div>
+
+              <div className="form-group">
+                <label>Primary Muscles (comma-separated)</label>
+                <input
+                  type="text"
+                  value={formData.primaryMuscles?.join(', ') || ''}
+                  onChange={(e) => setFormData({ 
+                    ...formData, 
+                    primaryMuscles: e.target.value.split(',').map(m => m.trim()).filter(m => m)
+                  })}
+                  placeholder="e.g., chest, triceps"
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Instructions</label>
+                {formData.instructions.map((instruction, index) => (
+                  <div key={index} style={{ display: 'flex', gap: '8px', marginBottom: '8px' }}>
+                    <input
+                      type="text"
+                      value={instruction}
+                      onChange={(e) => updateInstruction(index, e.target.value)}
+                      placeholder={`Step ${index + 1}`}
+                      style={{ flex: 1 }}
+                    />
+                    <button
+                      type="button"
+                      className="btn-small btn-danger"
+                      onClick={() => removeInstruction(index)}
+                    >
+                      ✕
+                    </button>
+                  </div>
+                ))}
+                <button 
+                  type="button" 
+                  className="btn-small btn-secondary"
+                  onClick={addInstruction}
+                >
+                  + Add Step
+                </button>
+              </div>
+
+              <div style={{ marginTop: '24px', display: 'flex', gap: '12px' }}>
+                <button type="submit" className="btn-success" style={{ flex: 1 }}>
+                  {exercise ? '✓ UPDATE EXERCISE' : '✓ CREATE EXERCISE'}
+                </button>
+                <button type="button" className="btn-secondary" onClick={onClose} style={{ flex: 1 }}>
+                  CANCEL
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      );
+    }
+
+    // Today's Workout View
+    function TodayWorkoutView({ token }) {
       const [todayPlan, setTodayPlan] = useState(null);
+      const [expandedExercise, setExpandedExercise] = useState(null);
       const [loading, setLoading] = useState(true);
 
       useEffect(() => {
@@ -748,7 +1263,24 @@
       };
 
       if (loading) {
-        return <div className="content-area">Loading...</div>;
+        return (
+          <div className="content-area">
+            <div style={{ textAlign: 'center', padding: '40px' }}>
+              <div className="loading"></div>
+            </div>
+          </div>
+        );
+      }
+
+      if (!todayPlan || !todayPlan.exercises || todayPlan.exercises.length === 0) {
+        return (
+          <div className="content-area">
+            <div className="empty-state">
+              <h3>No Workout Planned for Today</h3>
+              <p>Head to "Plan Workouts" to set up your weekly schedule!</p>
+            </div>
+          </div>
+        );
       }
 
       const dayNames = {
@@ -763,102 +1295,60 @@
 
       return (
         <div className="content-area">
-          <div className="today-plan">
-            <h2>Today's Workout</h2>
-            <div className="day-name">{dayNames[todayPlan?.day] || 'Today'}</div>
-            {todayPlan?.muscles && todayPlan.muscles.length > 0 ? (
-              <>
-                <p>Focus: {todayPlan.muscles.join(', ')}</p>
-                <div className="muscle-chips">
-                  {todayPlan.muscles.map(muscle => (
-                    <div key={muscle} className="muscle-chip">
-                      {muscle.toUpperCase()}
-                    </div>
-                  ))}
-                </div>
-              </>
-            ) : (
-              <p>Rest Day - No workouts planned. Configure your weekly plan in Settings!</p>
-            )}
+          <div style={{ marginBottom: '24px' }}>
+            <h2>{dayNames[todayPlan.day]}'s Workout</h2>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '14px' }}>
+              Focus: {todayPlan.muscles?.join(', ') || 'Various muscle groups'}
+            </p>
           </div>
 
-          {todayPlan?.exercises && todayPlan.exercises.length > 0 && (
-            <>
-              <h2>Today's Exercises</h2>
-              <div className="exercise-grid">
-                {todayPlan.exercises.map(exercise => (
-                  <ExerciseCard key={exercise.id} exercise={exercise} />
-                ))}
-              </div>
-            </>
-          )}
-        </div>
-      );
-    }
-
-    // Exercise Card Component
-    function ExerciseCard({ exercise, onClick, selected }) {
-      const imageUrl = `https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/${exercise.images?.[0]}`;
-      
-      return (
-        <div 
-          className={`exercise-card ${selected ? 'selected' : ''}`}
-          onClick={onClick}
-        >
-          {exercise.images && exercise.images.length > 0 && (
-            <img 
-              src={imageUrl} 
-              alt={exercise.name} 
-              className="exercise-image"
-              onError={(e) => e.target.style.display = 'none'}
-            />
-          )}
-          <h4>{exercise.name}</h4>
-          <p>Equipment: {exercise.equipment || 'N/A'}</p>
-          <p>Level: {exercise.level || 'N/A'}</p>
-          <div>
-            {exercise.primaryMuscles?.map(muscle => (
-              <span key={muscle} className="exercise-badge">{muscle}</span>
+          <div className="exercise-list">
+            {todayPlan.exercises.map(exercise => (
+              <ExerciseWorkoutItem
+                key={exercise.id}
+                exercise={exercise}
+                token={token}
+                expanded={expandedExercise === exercise.id}
+                onToggle={() => setExpandedExercise(expandedExercise === exercise.id ? null : exercise.id)}
+                onWorkoutLogged={fetchTodayPlan}
+              />
             ))}
           </div>
         </div>
       );
     }
 
-    // Workout Logger Component
-    function WorkoutLogger({ token }) {
-      const [exercises, setExercises] = useState([]);
-      const [muscles, setMuscles] = useState([]);
-      const [selectedMuscle, setSelectedMuscle] = useState('');
-      const [selectedExercise, setSelectedExercise] = useState(null);
-      const [sets, setSets] = useState([{ reps: '', weight: '' }]);
-      const [notes, setNotes] = useState('');
-      const [message, setMessage] = useState('');
+    // Exercise Workout Item Component
+    function ExerciseWorkoutItem({ exercise, token, expanded, onToggle, onWorkoutLogged }) {
+      const [sets, setSets] = useState([{ reps: '', weight: '', time: '', distance: '' }]);
+      const [notes, setNotes] = useState(exercise.notes || '');
+      const [previousData, setPreviousData] = useState(null);
+      const [saving, setSaving] = useState(false);
+
+      const isCardio = isCardioExercise(exercise);
 
       useEffect(() => {
-        fetchExercises();
-      }, []);
+        if (expanded) {
+          fetchPreviousData();
+        }
+      }, [expanded]);
 
-      const fetchExercises = async () => {
+      const fetchPreviousData = async () => {
         try {
-          const response = await fetch(API_URL + '/exercises', {
+          const response = await fetch(API_URL + `/workouts/previous/${exercise.id}`, {
             headers: { 'Authorization': `Bearer ${token}` }
           });
-          const data = await response.json();
-          setExercises(data);
-
-          const uniqueMuscles = [...new Set(data.flatMap(e => e.primaryMuscles || []))];
-          setMuscles(uniqueMuscles.sort());
-          if (uniqueMuscles.length > 0) {
-            setSelectedMuscle(uniqueMuscles[0]);
+          if (response.ok) {
+            const data = await response.json();
+            setPreviousData(data);
           }
         } catch (err) {
-          console.error('Error fetching exercises:', err);
+          console.error('Error fetching previous data:', err);
         }
       };
 
       const addSet = () => {
-        setSets([...sets, { reps: '', weight: '' }]);
+        setSets([...sets, { reps: '', weight: '', time: '', distance: '' }]);
       };
 
       const updateSet = (index, field, value) => {
@@ -873,19 +1363,17 @@
         }
       };
 
-      const handleLogWorkout = async () => {
-        if (!selectedExercise) {
-          setMessage('Please select an exercise');
-          return;
-        }
-
-        const validSets = sets.filter(set => set.reps && set.weight);
+      const handleSave = async () => {
+        const validSets = sets.filter(set => 
+          (set.reps && set.weight) || set.time || set.distance
+        );
 
         if (validSets.length === 0) {
-          setMessage('Please fill in at least one set');
+          alert('Please fill in at least one set');
           return;
         }
 
+        setSaving(true);
         try {
           const response = await fetch(API_URL + '/workouts', {
             method: 'POST',
@@ -894,85 +1382,141 @@
               'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-              exerciseId: selectedExercise.id,
-              exerciseName: selectedExercise.name,
+              exerciseId: exercise.id,
+              exerciseName: exercise.name,
               sets: validSets,
               notes
             })
           });
 
           if (response.ok) {
-            setMessage('Workout logged successfully! 💪');
-            setSets([{ reps: '', weight: '' }]);
+            alert('Workout logged! 💪');
+            setSets([{ reps: '', weight: '', time: '', distance: '' }]);
             setNotes('');
-            setSelectedExercise(null);
-            setTimeout(() => setMessage(''), 3000);
+            onToggle();
+            if (onWorkoutLogged) onWorkoutLogged();
           }
         } catch (err) {
-          setMessage('Error logging workout');
+          alert('Error logging workout');
+        } finally {
+          setSaving(false);
         }
       };
 
-      const filteredExercises = exercises.filter(e => 
-        e.primaryMuscles && e.primaryMuscles.includes(selectedMuscle)
-      );
+      const getPreviousDisplay = () => {
+        if (!previousData || !previousData.sets || previousData.sets.length === 0) return null;
+        
+        const lastSet = previousData.sets[0];
+        if (lastSet.weight) return `${lastSet.weight} lbs`;
+        if (lastSet.time) return `${lastSet.time} min`;
+        if (lastSet.distance) return `${lastSet.distance} mi`;
+        return null;
+      };
+
+      const previousDisplay = getPreviousDisplay();
 
       return (
-        <div className="main-content">
-          <div className="sidebar">
-            <h3>Muscle Groups</h3>
-            <ul className="category-list">
-              {muscles.map(muscle => (
-                <li
-                  key={muscle}
-                  className={`category-item ${muscle === selectedMuscle ? 'active' : ''}`}
-                  onClick={() => setSelectedMuscle(muscle)}
-                >
-                  {muscle.charAt(0).toUpperCase() + muscle.slice(1)}
-                </li>
-              ))}
-            </ul>
+        <div className={`exercise-item ${expanded ? 'expanded' : ''}`}>
+          <div className="exercise-header" onClick={onToggle}>
+            <div className="exercise-info">
+              <div className="exercise-name">{exercise.name}</div>
+              <div className="exercise-meta">
+                <span>📍 {exercise.category || 'N/A'}</span>
+                <span>🔧 {exercise.equipment || 'N/A'}</span>
+                {exercise.level && <span>📊 {exercise.level}</span>}
+                {isCardio && <span style={{ color: 'var(--accent-warning)' }}>⚡ CARDIO</span>}
+              </div>
+            </div>
+            {previousDisplay && (
+              <div className="previous-data">
+                Last: {previousDisplay}
+              </div>
+            )}
+            <div className={`expand-icon ${expanded ? 'expanded' : ''}`}>▼</div>
           </div>
 
-          <div className="content-area">
-            <h2>{selectedMuscle ? selectedMuscle.charAt(0).toUpperCase() + selectedMuscle.slice(1) : 'Select Muscle Group'}</h2>
-            <div className="exercise-grid">
-              {filteredExercises.map(exercise => (
-                <ExerciseCard
-                  key={exercise.id}
-                  exercise={exercise}
-                  selected={selectedExercise?.id === exercise.id}
-                  onClick={() => setSelectedExercise(exercise)}
+          {expanded && (
+            <div className="exercise-details">
+              {exercise.images && exercise.images[0] && (
+                <img 
+                  src={`https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/${exercise.images[0]}`}
+                  alt={exercise.name}
+                  className="exercise-image"
+                  onError={(e) => e.target.style.display = 'none'}
                 />
-              ))}
-            </div>
+              )}
 
-            {selectedExercise && (
-              <div className="workout-form">
-                <h3>Log: {selectedExercise.name}</h3>
-                <div className="sets-container">
-                  {sets.map((set, index) => (
-                    <div key={index} className="set-row">
-                      <div className="form-group">
-                        <label>Reps</label>
-                        <input
-                          type="number"
-                          value={set.reps}
-                          onChange={(e) => updateSet(index, 'reps', e.target.value)}
-                          placeholder="12"
-                        />
-                      </div>
-                      <div className="form-group">
-                        <label>Weight (lbs)</label>
-                        <input
-                          type="number"
-                          value={set.weight}
-                          onChange={(e) => updateSet(index, 'weight', e.target.value)}
-                          placeholder="135"
-                        />
-                      </div>
+              {exercise.instructions && exercise.instructions.length > 0 && (
+                <div className="exercise-instructions">
+                  <h4>Instructions:</h4>
+                  <ol>
+                    {exercise.instructions.map((instruction, i) => (
+                      <li key={i}>{instruction}</li>
+                    ))}
+                  </ol>
+                </div>
+              )}
+
+              <div className="sets-input-container">
+                <div style={{ marginBottom: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <strong style={{ color: 'var(--text-primary)' }}>LOG SETS</strong>
+                  <button className="btn-small btn-secondary" onClick={addSet}>
+                    + ADD SET
+                  </button>
+                </div>
+
+                {sets.map((set, index) => (
+                  <div key={index} className="set-input-row">
+                    <div>
+                      <div className="set-label">Set {index + 1}</div>
+                    </div>
+                    {!isCardio && (
+                      <>
+                        <div>
+                          <div className="set-label">Reps</div>
+                          <input
+                            type="number"
+                            value={set.reps}
+                            onChange={(e) => updateSet(index, 'reps', e.target.value)}
+                            placeholder="12"
+                          />
+                        </div>
+                        <div>
+                          <div className="set-label">Weight (lbs)</div>
+                          <input
+                            type="number"
+                            value={set.weight}
+                            onChange={(e) => updateSet(index, 'weight', e.target.value)}
+                            placeholder="135"
+                          />
+                        </div>
+                      </>
+                    )}
+                    {isCardio && (
+                      <>
+                        <div>
+                          <div className="set-label">Time (min)</div>
+                          <input
+                            type="number"
+                            value={set.time}
+                            onChange={(e) => updateSet(index, 'time', e.target.value)}
+                            placeholder="30"
+                          />
+                        </div>
+                        <div>
+                          <div className="set-label">Distance (mi)</div>
+                          <input
+                            type="number"
+                            step="0.1"
+                            value={set.distance}
+                            onChange={(e) => updateSet(index, 'distance', e.target.value)}
+                            placeholder="3.0"
+                          />
+                        </div>
+                      </>
+                    )}
+                    <div style={{ display: 'flex', alignItems: 'flex-end' }}>
                       <button
-                        type="button"
                         className="btn-small btn-danger"
                         onClick={() => removeSet(index)}
                         disabled={sets.length === 1}
@@ -980,38 +1524,411 @@
                         ✕
                       </button>
                     </div>
-                  ))}
-                </div>
-                
+                  </div>
+                ))}
+              </div>
+
+              <div className="notes-input">
                 <div className="form-group">
-                  <label>Notes (optional)</label>
+                  <label>Notes</label>
                   <textarea
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
-                    placeholder="How did this exercise feel?"
-                    rows="3"
+                    placeholder="How did this feel? Any observations?"
                   />
                 </div>
+              </div>
 
-                <button type="button" className="btn-small btn-secondary" onClick={addSet}>
-                  + Add Set
+              <div style={{ marginTop: '16px', display: 'flex', gap: '12px' }}>
+                <button 
+                  className="btn-success" 
+                  onClick={handleSave}
+                  disabled={saving}
+                  style={{ flex: 1 }}
+                >
+                  {saving ? 'SAVING...' : '✓ LOG WORKOUT'}
                 </button>
                 <button 
-                  type="button" 
-                  className="btn-small btn-success"
-                  style={{ marginLeft: '10px' }}
-                  onClick={handleLogWorkout}
+                  className="btn-secondary" 
+                  onClick={onToggle}
+                  style={{ flex: 1 }}
                 >
-                  Log Workout
+                  CANCEL
                 </button>
-                {message && (
-                  <div className={message.includes('success') ? 'success' : 'error'} style={{ marginTop: '15px' }}>
-                    {message}
-                  </div>
-                )}
               </div>
-            )}
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    // Workout Planner View (Continued in next message due to length...)
+    function WorkoutPlannerView({ token }) {
+      const [settings, setSettings] = useState(null);
+      const [exercises, setExercises] = useState([]);
+      const [selectedDay, setSelectedDay] = useState(null);
+      const [showExerciseModal, setShowExerciseModal] = useState(false);
+      const [selectedMuscleGroups, setSelectedMuscleGroups] = useState([]);
+      const [searchTerm, setSearchTerm] = useState('');
+      const [loading, setLoading] = useState(true);
+
+      const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+      const dayNames = {
+        monday: 'Monday',
+        tuesday: 'Tuesday',
+        wednesday: 'Wednesday',
+        thursday: 'Thursday',
+        friday: 'Friday',
+        saturday: 'Saturday',
+        sunday: 'Sunday'
+      };
+
+      useEffect(() => {
+        fetchSettings();
+        fetchExercises();
+      }, []);
+
+      const fetchSettings = async () => {
+        try {
+          const response = await fetch(API_URL + '/settings', {
+            headers: { 'Authorization': `Bearer ${token}` }
+          });
+          const data = await response.json();
+          setSettings(data);
+        } catch (err) {
+          console.error('Error fetching settings:', err);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      const fetchExercises = async () => {
+        try {
+          const response = await fetch(API_URL + '/exercises', {
+            headers: { 'Authorization': `Bearer ${token}` }
+          });
+          const data = await response.json();
+          setExercises(data);
+        } catch (err) {
+          console.error('Error fetching exercises:', err);
+        }
+      };
+
+      const saveSettings = async () => {
+        try {
+          const response = await fetch(API_URL + '/settings', {
+            method: 'PUT',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(settings)
+          });
+
+          if (response.ok) {
+            alert('Settings saved!');
+          }
+        } catch (err) {
+          alert('Error saving settings');
+        }
+      };
+
+      const openDaySelector = (day) => {
+        setSelectedDay(day);
+        const dayMuscles = settings.weeklyPlan[day]?.muscles || [];
+        setSelectedMuscleGroups(dayMuscles);
+        setShowExerciseModal(true);
+      };
+
+      const toggleMuscleGroup = (muscle) => {
+        if (selectedMuscleGroups.includes(muscle)) {
+          setSelectedMuscleGroups(selectedMuscleGroups.filter(m => m !== muscle));
+        } else {
+          setSelectedMuscleGroups([...selectedMuscleGroups, muscle]);
+        }
+      };
+
+      const addExerciseToDay = (exercise) => {
+        const newSettings = { ...settings };
+        if (!newSettings.weeklyPlan[selectedDay]) {
+          newSettings.weeklyPlan[selectedDay] = { muscles: [], exercises: [] };
+        }
+        if (!newSettings.weeklyPlan[selectedDay].exercises) {
+          newSettings.weeklyPlan[selectedDay].exercises = [];
+        }
+        
+        const exists = newSettings.weeklyPlan[selectedDay].exercises.find(e => e.id === exercise.id);
+        if (!exists) {
+          newSettings.weeklyPlan[selectedDay].exercises.push({
+            ...exercise,
+            notes: ''
+          });
+          setSettings(newSettings);
+        }
+      };
+
+      const removeExerciseFromDay = (day, exerciseId) => {
+        const newSettings = { ...settings };
+        newSettings.weeklyPlan[day].exercises = newSettings.weeklyPlan[day].exercises.filter(
+          e => e.id !== exerciseId
+        );
+        setSettings(newSettings);
+      };
+
+      const saveDayConfiguration = () => {
+        const newSettings = { ...settings };
+        if (!newSettings.weeklyPlan[selectedDay]) {
+          newSettings.weeklyPlan[selectedDay] = { muscles: [], exercises: [] };
+        }
+        newSettings.weeklyPlan[selectedDay].muscles = selectedMuscleGroups;
+        setSettings(newSettings);
+        setShowExerciseModal(false);
+        saveSettings();
+      };
+
+      const allMuscles = [...new Set(exercises.flatMap(e => e.primaryMuscles || []))].sort();
+
+      const filteredExercises = exercises.filter(e => {
+        const matchesSearch = e.name.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesMuscle = selectedMuscleGroups.length === 0 || 
+          selectedMuscleGroups.some(muscle => e.primaryMuscles?.includes(muscle));
+        return matchesSearch && matchesMuscle;
+      });
+
+      const getTodayDay = () => {
+        const dayIndex = new Date().getDay();
+        return ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'][dayIndex];
+      };
+
+      if (loading) {
+        return (
+          <div className="content-area">
+            <div style={{ textAlign: 'center', padding: '40px' }}>
+              <div className="loading"></div>
+            </div>
           </div>
+        );
+      }
+
+      return (
+        <div className="content-area">
+          <h2>Weekly Workout Planner</h2>
+          <p style={{ color: 'var(--text-secondary)', marginBottom: '24px' }}>
+            Configure your weekly workout schedule by selecting exercises for each day
+          </p>
+
+          <div className="workout-day-container">
+            {days.map(day => {
+              const dayPlan = settings?.weeklyPlan?.[day];
+              const isToday = day === getTodayDay();
+              
+              return (
+                <WorkoutDayCard
+                  key={day}
+                  day={day}
+                  dayName={dayNames[day]}
+                  isToday={isToday}
+                  exercises={dayPlan?.exercises || []}
+                  muscles={dayPlan?.muscles || []}
+                  onConfigureDay={() => openDaySelector(day)}
+                  onRemoveExercise={(exerciseId) => removeExerciseFromDay(day, exerciseId)}
+                  onSaveSettings={saveSettings}
+                  settings={settings}
+                  setSettings={setSettings}
+                />
+              );
+            })}
+          </div>
+
+          {showExerciseModal && (
+            <div className="modal" onClick={() => setShowExerciseModal(false)}>
+              <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                <div className="modal-header">
+                  <h3>Configure {dayNames[selectedDay]}</h3>
+                  <button className="modal-close" onClick={() => setShowExerciseModal(false)}>
+                    ✕
+                  </button>
+                </div>
+
+                <div className="day-settings">
+                  <h4 style={{ marginBottom: '16px', color: 'var(--text-primary)' }}>Select Muscle Groups</h4>
+                  <div className="muscle-group-selector">
+                    {allMuscles.map(muscle => (
+                      <div
+                        key={muscle}
+                        className={`muscle-group-card ${selectedMuscleGroups.includes(muscle) ? 'selected' : ''}`}
+                        onClick={() => toggleMuscleGroup(muscle)}
+                      >
+                        <div className="muscle-group-name">
+                          {muscle.charAt(0).toUpperCase() + muscle.slice(1)}
+                        </div>
+                        <div className="muscle-group-count">
+                          {exercises.filter(e => e.primaryMuscles?.includes(muscle)).length} exercises
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <h4 style={{ marginTop: '24px', marginBottom: '16px', color: 'var(--text-primary)' }}>
+                    Add Exercises
+                  </h4>
+                  
+                  <div className="exercise-search">
+                    <input
+                      type="text"
+                      placeholder="Search exercises..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                  </div>
+
+                  <div className="exercise-grid">
+                    {filteredExercises.slice(0, 20).map(exercise => (
+                      <div 
+                        key={exercise.id} 
+                        className="exercise-card"
+                        onClick={() => addExerciseToDay(exercise)}
+                      >
+                        {exercise.images && exercise.images[0] && (
+                          <img 
+                            src={`https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/${exercise.images[0]}`}
+                            alt={exercise.name}
+                            style={{ width: '100%', height: '120px', objectFit: 'cover', borderRadius: '6px', marginBottom: '8px' }}
+                            onError={(e) => e.target.style.display = 'none'}
+                          />
+                        )}
+                        <h4>{exercise.name}</h4>
+                        <p>Equipment: {exercise.equipment || 'N/A'}</p>
+                        <p>Level: {exercise.level || 'N/A'}</p>
+                        <div>
+                          {exercise.primaryMuscles?.slice(0, 2).map(muscle => (
+                            <span key={muscle} className="exercise-badge">{muscle}</span>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div style={{ marginTop: '24px', display: 'flex', gap: '12px' }}>
+                    <button 
+                      onClick={saveDayConfiguration}
+                      className="btn-success"
+                      style={{ flex: 1 }}
+                    >
+                      ✓ SAVE DAY CONFIGURATION
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    // Workout Day Card Component
+    function WorkoutDayCard({ day, dayName, isToday, exercises, muscles, onConfigureDay, onRemoveExercise, onSaveSettings, settings, setSettings }) {
+      const [expanded, setExpanded] = useState(false);
+
+      const updateExerciseNotes = (exerciseId, notes) => {
+        const newSettings = { ...settings };
+        const exercise = newSettings.weeklyPlan[day].exercises.find(e => e.id === exerciseId);
+        if (exercise) {
+          exercise.notes = notes;
+          setSettings(newSettings);
+        }
+      };
+
+      return (
+        <div className={`workout-day-card ${isToday ? 'active' : ''}`}>
+          <div className="workout-day-header" onClick={() => setExpanded(!expanded)}>
+            <div className="day-title">
+              <span className="day-name">{dayName}</span>
+              {isToday && <span className="day-badge today">TODAY</span>}
+              {exercises.length > 0 && (
+                <span className="day-badge">{exercises.length} exercises</span>
+              )}
+            </div>
+            <div className={`expand-icon ${expanded ? 'expanded' : ''}`}>▼</div>
+          </div>
+
+          {expanded && (
+            <div className="workout-day-content">
+              {muscles.length > 0 && (
+                <div style={{ marginBottom: '16px' }}>
+                  <strong style={{ color: 'var(--text-secondary)', fontSize: '12px' }}>
+                    TARGET MUSCLES:
+                  </strong>
+                  <div style={{ marginTop: '8px', display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                    {muscles.map(muscle => (
+                      <span key={muscle} className="exercise-badge">
+                        {muscle}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {exercises.length > 0 ? (
+                <div style={{ marginBottom: '16px' }}>
+                  {exercises.map(exercise => (
+                    <div 
+                      key={exercise.id} 
+                      style={{ 
+                        padding: '12px', 
+                        background: 'var(--bg-tertiary)', 
+                        borderRadius: '6px', 
+                        marginBottom: '8px',
+                        border: '1px solid var(--border-color)'
+                      }}
+                    >
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '8px' }}>
+                        <div>
+                          <strong style={{ color: 'var(--text-primary)' }}>{exercise.name}</strong>
+                          <div style={{ fontSize: '12px', color: 'var(--text-secondary)', marginTop: '4px' }}>
+                            {exercise.equipment} • {exercise.category}
+                            {isCardioExercise(exercise) && <span style={{ color: 'var(--accent-warning)', marginLeft: '8px' }}>⚡ CARDIO</span>}
+                          </div>
+                        </div>
+                        <button
+                          className="btn-small btn-danger"
+                          onClick={() => onRemoveExercise(exercise.id)}
+                        >
+                          ✕
+                        </button>
+                      </div>
+                      <div className="form-group" style={{ marginTop: '8px' }}>
+                        <input
+                          type="text"
+                          placeholder="Add notes for this exercise..."
+                          value={exercise.notes || ''}
+                          onChange={(e) => updateExerciseNotes(exercise.id, e.target.value)}
+                          onBlur={onSaveSettings}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div style={{ 
+                  padding: '20px', 
+                  textAlign: 'center', 
+                  color: 'var(--text-secondary)',
+                  fontSize: '14px'
+                }}>
+                  No exercises planned for this day
+                </div>
+              )}
+
+              <button 
+                onClick={onConfigureDay}
+                className="btn-secondary"
+                style={{ width: '100%' }}
+              >
+                ⚙️ CONFIGURE {dayName.toUpperCase()}
+              </button>
+            </div>
+          )}
         </div>
       );
     }
@@ -1019,6 +1936,7 @@
     // Workout History Component
     function WorkoutHistory({ token }) {
       const [workouts, setWorkouts] = useState([]);
+      const [loading, setLoading] = useState(true);
 
       useEffect(() => {
         fetchWorkouts();
@@ -1033,6 +1951,8 @@
           setWorkouts(data.sort((a, b) => new Date(b.date) - new Date(a.date)));
         } catch (err) {
           console.error('Error fetching workouts:', err);
+        } finally {
+          setLoading(false);
         }
       };
 
@@ -1052,14 +1972,24 @@
 
       const formatDate = (dateString) => {
         const date = new Date(dateString);
-        return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+        return date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
       };
+
+      if (loading) {
+        return (
+          <div className="content-area">
+            <div style={{ textAlign: 'center', padding: '40px' }}>
+              <div className="loading"></div>
+            </div>
+          </div>
+        );
+      }
 
       if (workouts.length === 0) {
         return (
           <div className="content-area">
             <div className="empty-state">
-              <h3>No Workouts Yet</h3>
+              <h3>No Workouts Logged Yet</h3>
               <p>Start logging your workouts to see them here!</p>
             </div>
           </div>
@@ -1068,29 +1998,59 @@
 
       return (
         <div className="content-area">
-          <h2>Your Workout History</h2>
-          <div className="workout-history">
+          <h2>Workout History</h2>
+          <div style={{ marginTop: '24px' }}>
             {workouts.map(workout => (
-              <div key={workout.id} className="workout-item">
+              <div 
+                key={workout.id} 
+                style={{ 
+                  background: 'var(--bg-secondary)', 
+                  padding: '20px', 
+                  borderRadius: '8px', 
+                  marginBottom: '16px',
+                  border: '1px solid var(--border-color)'
+                }}
+              >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
                   <div>
-                    <h4>{workout.exerciseName}</h4>
-                    <div className="date">{formatDate(workout.date)}</div>
-                    {workout.notes && <p style={{ fontSize: '14px', marginTop: '8px', color: '#666' }}>{workout.notes}</p>}
+                    <h3 style={{ color: 'var(--text-primary)', marginBottom: '8px' }}>
+                      {workout.exerciseName}
+                    </h3>
+                    <div style={{ fontSize: '13px', color: 'var(--text-secondary)', marginBottom: '12px' }}>
+                      {formatDate(workout.date)}
+                    </div>
+                    {workout.notes && (
+                      <p style={{ fontSize: '14px', color: 'var(--text-secondary)', marginBottom: '12px' }}>
+                        {workout.notes}
+                      </p>
+                    )}
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                      {workout.sets?.map((set, index) => (
+                        <div 
+                          key={index}
+                          style={{ 
+                            background: 'var(--bg-tertiary)', 
+                            padding: '8px 12px', 
+                            borderRadius: '6px',
+                            fontSize: '13px',
+                            border: '1px solid var(--border-color)'
+                          }}
+                        >
+                          Set {index + 1}: {
+                            set.reps ? `${set.reps} reps @ ${set.weight} lbs` : 
+                            set.time ? `${set.time} min` + (set.distance ? ` / ${set.distance} mi` : '') : 
+                            'N/A'
+                          }
+                        </div>
+                      ))}
+                    </div>
                   </div>
                   <button
                     className="btn-small btn-danger"
                     onClick={() => deleteWorkout(workout.id)}
                   >
-                    Delete
+                    DELETE
                   </button>
-                </div>
-                <div className="sets">
-                  {workout.sets?.map((set, index) => (
-                    <div key={index} className="set-badge">
-                      Set {index + 1}: {set.reps} reps @ {set.weight} lbs
-                    </div>
-                  ))}
                 </div>
               </div>
             ))}
@@ -1108,12 +2068,6 @@
         fetchAnalytics();
       }, []);
 
-      useEffect(() => {
-        if (analytics && analytics.volumeOverTime.length > 0) {
-          renderVolumeChart();
-        }
-      }, [analytics]);
-
       const fetchAnalytics = async () => {
         try {
           const response = await fetch(API_URL + '/analytics', {
@@ -1128,37 +2082,14 @@
         }
       };
 
-      const renderVolumeChart = () => {
-        const ctx = document.getElementById('volumeChart');
-        if (!ctx) return;
-
-        new Chart(ctx, {
-          type: 'line',
-          data: {
-            labels: analytics.volumeOverTime.map(d => d.date),
-            datasets: [{
-              label: 'Training Volume',
-              data: analytics.volumeOverTime.map(d => d.volume),
-              borderColor: '#667eea',
-              backgroundColor: 'rgba(102, 126, 234, 0.1)',
-              tension: 0.4
-            }]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: true,
-            plugins: {
-              title: {
-                display: true,
-                text: 'Training Volume Over Time (Last 30 Days)'
-              }
-            }
-          }
-        });
-      };
-
       if (loading) {
-        return <div className="content-area">Loading analytics...</div>;
+        return (
+          <div className="content-area">
+            <div style={{ textAlign: 'center', padding: '40px' }}>
+              <div className="loading"></div>
+            </div>
+          </div>
+        );
       }
 
       if (!analytics || analytics.totalWorkouts === 0) {
@@ -1191,258 +2122,27 @@
             </div>
           </div>
 
-          {analytics.volumeOverTime.length > 0 && (
-            <div className="chart-container">
-              <canvas id="volumeChart"></canvas>
-            </div>
-          )}
-
-          <div className="settings-section">
-            <h3>Exercise Frequency</h3>
+          <div style={{ background: 'var(--bg-secondary)', padding: '24px', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
+            <h3 style={{ marginBottom: '16px', color: 'var(--text-primary)' }}>Exercise Frequency</h3>
             {Object.entries(analytics.exerciseFrequency)
               .sort((a, b) => b[1] - a[1])
               .slice(0, 10)
               .map(([exercise, count]) => (
-                <div key={exercise} style={{ padding: '10px 0', borderBottom: '1px solid #e0e0e0' }}>
-                  <strong>{exercise}</strong>: {count} sessions
+                <div 
+                  key={exercise} 
+                  style={{ 
+                    padding: '12px 0', 
+                    borderBottom: '1px solid var(--border-color)',
+                    display: 'flex',
+                    justifyContent: 'space-between'
+                  }}
+                >
+                  <span style={{ color: 'var(--text-primary)' }}>{exercise}</span>
+                  <span style={{ color: 'var(--accent-primary)', fontWeight: '600' }}>{count} sessions</span>
                 </div>
               ))}
           </div>
         </div>
-      );
-    }
-
-    // Settings View Component
-    function SettingsView({ token }) {
-      const [settings, setSettings] = useState(null);
-      const [loading, setLoading] = useState(true);
-      const [message, setMessage] = useState('');
-
-      const allMuscles = [
-        'chest', 'back', 'shoulders', 'biceps', 'triceps', 
-        'legs', 'quadriceps', 'hamstrings', 'calves', 'glutes',
-        'abdominals', 'forearms', 'traps', 'lats'
-      ];
-
-      const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-
-      useEffect(() => {
-        fetchSettings();
-      }, []);
-
-      const fetchSettings = async () => {
-        try {
-          const response = await fetch(API_URL + '/settings', {
-            headers: { 'Authorization': `Bearer ${token}` }
-          });
-          const data = await response.json();
-          setSettings(data);
-        } catch (err) {
-          console.error('Error fetching settings:', err);
-        } finally {
-          setLoading(false);
-        }
-      };
-
-      const toggleMuscleForDay = (day, muscle) => {
-        const newSettings = { ...settings };
-        const dayMuscles = newSettings.weeklyPlan[day] || [];
-        
-        if (dayMuscles.includes(muscle)) {
-          newSettings.weeklyPlan[day] = dayMuscles.filter(m => m !== muscle);
-        } else {
-          newSettings.weeklyPlan[day] = [...dayMuscles, muscle];
-        }
-        
-        setSettings(newSettings);
-      };
-
-      const saveSettings = async () => {
-        try {
-          const response = await fetch(API_URL + '/settings', {
-            method: 'PUT',
-            headers: {
-              'Authorization': `Bearer ${token}`,
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(settings)
-          });
-
-          if (response.ok) {
-            setMessage('Settings saved successfully!');
-            setTimeout(() => setMessage(''), 3000);
-          }
-        } catch (err) {
-          setMessage('Error saving settings');
-        }
-      };
-
-      if (loading) {
-        return <div className="content-area">Loading settings...</div>;
-      }
-
-      return (
-        <div className="content-area">
-          <h2>Workout Schedule Settings</h2>
-          <p style={{ marginBottom: '20px', color: '#666' }}>
-            Configure which muscle groups you want to work on each day of the week.
-          </p>
-
-          <div className="settings-grid">
-            <div className="settings-section">
-              <h3>Weekly Schedule</h3>
-              <div className="day-selector">
-                {days.map(day => (
-                  <div key={day} className="day-card">
-                    <h4>{day.charAt(0).toUpperCase() + day.slice(1)}</h4>
-                    {allMuscles.map(muscle => (
-                      <div key={muscle} className="muscle-checkbox">
-                        <input
-                          type="checkbox"
-                          checked={settings.weeklyPlan[day]?.includes(muscle) || false}
-                          onChange={() => toggleMuscleForDay(day, muscle)}
-                        />
-                        <label>{muscle}</label>
-                      </div>
-                    ))}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <button onClick={saveSettings} className="btn-success" style={{ marginTop: '20px' }}>
-            Save Settings
-          </button>
-          {message && <div className="success" style={{ marginTop: '15px' }}>{message}</div>}
-        </div>
-      );
-    }
-
-    // Random Exercise Button Component
-    function RandomExerciseButton({ token }) {
-      const [showModal, setShowModal] = useState(false);
-      const [selectedMuscle, setSelectedMuscle] = useState('');
-      const [randomExercise, setRandomExercise] = useState(null);
-      const [muscles, setMuscles] = useState([]);
-
-      useEffect(() => {
-        fetchMuscles();
-      }, []);
-
-      const fetchMuscles = async () => {
-        try {
-          const response = await fetch(API_URL + '/exercises', {
-            headers: { 'Authorization': `Bearer ${token}` }
-          });
-          const data = await response.json();
-          const uniqueMuscles = [...new Set(data.flatMap(e => e.primaryMuscles || []))];
-          setMuscles(uniqueMuscles.sort());
-        } catch (err) {
-          console.error('Error fetching muscles:', err);
-        }
-      };
-
-      const getRandomExercise = async () => {
-        if (!selectedMuscle) return;
-
-        try {
-          const response = await fetch(API_URL + `/exercises/random/${selectedMuscle}`, {
-            headers: { 'Authorization': `Bearer ${token}` }
-          });
-          const data = await response.json();
-          setRandomExercise(data);
-        } catch (err) {
-          console.error('Error getting random exercise:', err);
-        }
-      };
-
-      const imageUrl = randomExercise?.images?.[0] 
-        ? `https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/${randomExercise.images[0]}`
-        : null;
-
-      return (
-        <>
-          <button 
-            className="random-exercise-btn"
-            onClick={() => setShowModal(true)}
-            title="Get Random Exercise"
-          >
-            🎲
-          </button>
-
-          {showModal && (
-            <div className="modal" onClick={() => setShowModal(false)}>
-              <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                <button 
-                  className="modal-close"
-                  onClick={() => setShowModal(false)}
-                >
-                  ✕
-                </button>
-
-                <h2>Random Exercise Picker</h2>
-                <p style={{ marginBottom: '20px', color: '#666' }}>
-                  Need one more exercise? Pick a muscle group and get a random suggestion!
-                </p>
-
-                <div className="form-group">
-                  <label>Select Muscle Group</label>
-                  <select 
-                    value={selectedMuscle}
-                    onChange={(e) => setSelectedMuscle(e.target.value)}
-                  >
-                    <option value="">Choose a muscle...</option>
-                    {muscles.map(muscle => (
-                      <option key={muscle} value={muscle}>
-                        {muscle.charAt(0).toUpperCase() + muscle.slice(1)}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <button 
-                  onClick={getRandomExercise}
-                  disabled={!selectedMuscle}
-                  style={{ marginBottom: '20px' }}
-                >
-                  Get Random Exercise
-                </button>
-
-                {randomExercise && (
-                  <div style={{ marginTop: '20px' }}>
-                    <h3>{randomExercise.name}</h3>
-                    {imageUrl && (
-                      <img 
-                        src={imageUrl}
-                        alt={randomExercise.name}
-                        style={{ width: '100%', borderRadius: '8px', marginTop: '15px' }}
-                        onError={(e) => e.target.style.display = 'none'}
-                      />
-                    )}
-                    <p style={{ marginTop: '10px' }}>
-                      <strong>Equipment:</strong> {randomExercise.equipment || 'N/A'}
-                    </p>
-                    <p><strong>Level:</strong> {randomExercise.level || 'N/A'}</p>
-                    <p><strong>Force:</strong> {randomExercise.force || 'N/A'}</p>
-                    {randomExercise.instructions && (
-                      <div style={{ marginTop: '15px' }}>
-                        <strong>Instructions:</strong>
-                        <ol style={{ marginTop: '10px', paddingLeft: '20px' }}>
-                          {randomExercise.instructions.map((instruction, i) => (
-                            <li key={i} style={{ marginBottom: '8px' }}>
-                              {instruction}
-                            </li>
-                          ))}
-                        </ol>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
-        </>
       );
     }
 

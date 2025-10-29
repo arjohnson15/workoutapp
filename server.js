@@ -140,13 +140,13 @@ app.post('/api/register', async (req, res) => {
     settings.push({
       userId: newUser.id,
       weeklyPlan: {
-        monday: [],
-        tuesday: [],
-        wednesday: [],
-        thursday: [],
-        friday: [],
-        saturday: [],
-        sunday: []
+        monday: { muscles: [], exercises: [] },
+        tuesday: { muscles: [], exercises: [] },
+        wednesday: { muscles: [], exercises: [] },
+        thursday: { muscles: [], exercises: [] },
+        friday: { muscles: [], exercises: [] },
+        saturday: { muscles: [], exercises: [] },
+        sunday: { muscles: [], exercises: [] }
       },
       preferences: {
         exercisesPerDay: 5,
@@ -191,6 +191,75 @@ app.get('/api/exercises', authenticateToken, (req, res) => {
   try {
     const exercises = readExercises();
     res.json(exercises);
+  } catch (error) {
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// Create custom exercise
+app.post('/api/exercises', authenticateToken, (req, res) => {
+  try {
+    const exercises = readExercises();
+    const newExercise = {
+      id: `custom_${Date.now()}`,
+      ...req.body,
+      isCustom: true,
+      createdBy: req.user.id
+    };
+    exercises.push(newExercise);
+    writeExercises(exercises);
+    res.status(201).json(newExercise);
+  } catch (error) {
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// Update exercise
+app.put('/api/exercises/:id', authenticateToken, (req, res) => {
+  try {
+    const exercises = readExercises();
+    const index = exercises.findIndex(e => e.id === req.params.id || e.id === parseInt(req.params.id));
+    
+    if (index === -1) {
+      return res.status(404).json({ error: 'Exercise not found' });
+    }
+
+    // Only allow editing custom exercises or exercises created by the user
+    if (exercises[index].isCustom && exercises[index].createdBy === req.user.id) {
+      exercises[index] = {
+        ...exercises[index],
+        ...req.body,
+        id: exercises[index].id, // Preserve original ID
+        isCustom: true
+      };
+      writeExercises(exercises);
+      res.json(exercises[index]);
+    } else {
+      res.status(403).json({ error: 'Cannot edit this exercise' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// Delete custom exercise
+app.delete('/api/exercises/:id', authenticateToken, (req, res) => {
+  try {
+    const exercises = readExercises();
+    const index = exercises.findIndex(e => e.id === req.params.id || e.id === parseInt(req.params.id));
+    
+    if (index === -1) {
+      return res.status(404).json({ error: 'Exercise not found' });
+    }
+
+    // Only allow deleting custom exercises created by the user
+    if (exercises[index].isCustom && exercises[index].createdBy === req.user.id) {
+      exercises.splice(index, 1);
+      writeExercises(exercises);
+      res.json({ message: 'Exercise deleted' });
+    } else {
+      res.status(403).json({ error: 'Cannot delete this exercise' });
+    }
   } catch (error) {
     res.status(500).json({ error: 'Server error' });
   }
@@ -243,13 +312,13 @@ app.get('/api/settings', authenticateToken, (req, res) => {
       const defaultSettings = {
         userId: req.user.id,
         weeklyPlan: {
-          monday: [],
-          tuesday: [],
-          wednesday: [],
-          thursday: [],
-          friday: [],
-          saturday: [],
-          sunday: []
+          monday: { muscles: [], exercises: [] },
+          tuesday: { muscles: [], exercises: [] },
+          wednesday: { muscles: [], exercises: [] },
+          thursday: { muscles: [], exercises: [] },
+          friday: { muscles: [], exercises: [] },
+          saturday: { muscles: [], exercises: [] },
+          sunday: { muscles: [], exercises: [] }
         },
         preferences: {
           exercisesPerDay: 5,
@@ -304,28 +373,16 @@ app.get('/api/today-plan', authenticateToken, (req, res) => {
     
     const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
     const today = days[new Date().getDay()];
-    const todaysMuscles = userSettings.weeklyPlan[today] || [];
+    const todayPlan = userSettings.weeklyPlan[today];
     
-    const exercises = readExercises();
-    const todaysExercises = [];
-    
-    todaysMuscles.forEach(muscle => {
-      const muscleExercises = exercises.filter(e => 
-        e.primaryMuscles && e.primaryMuscles.some(m => 
-          m.toLowerCase() === muscle.toLowerCase()
-        )
-      );
-      
-      // Get random exercises for this muscle group
-      const count = Math.min(userSettings.preferences.exercisesPerDay || 5, muscleExercises.length);
-      const shuffled = muscleExercises.sort(() => 0.5 - Math.random());
-      todaysExercises.push(...shuffled.slice(0, count));
-    });
+    if (!todayPlan) {
+      return res.json({ day: today, muscles: [], exercises: [] });
+    }
     
     res.json({
       day: today,
-      muscles: todaysMuscles,
-      exercises: todaysExercises
+      muscles: todayPlan.muscles || [],
+      exercises: todayPlan.exercises || []
     });
   } catch (error) {
     res.status(500).json({ error: 'Server error' });
@@ -363,6 +420,29 @@ app.get('/api/workouts', authenticateToken, (req, res) => {
     const workouts = readWorkouts();
     const userWorkouts = workouts.filter(w => w.userId === req.user.id);
     res.json(userWorkouts);
+  } catch (error) {
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// Get previous workout data for a specific exercise
+app.get('/api/workouts/previous/:exerciseId', authenticateToken, (req, res) => {
+  try {
+    const workouts = readWorkouts();
+    const userWorkouts = workouts.filter(w => 
+      w.userId === req.user.id && 
+      w.exerciseId === parseInt(req.params.exerciseId)
+    );
+    
+    if (userWorkouts.length === 0) {
+      return res.status(404).json({ error: 'No previous workouts found' });
+    }
+    
+    // Get the most recent workout for this exercise
+    const sortedWorkouts = userWorkouts.sort((a, b) => new Date(b.date) - new Date(a.date));
+    const previousWorkout = sortedWorkouts[0];
+    
+    res.json(previousWorkout);
   } catch (error) {
     res.status(500).json({ error: 'Server error' });
   }
